@@ -15,6 +15,7 @@ class DataViewController: UIViewController {
 
 
     override func viewDidLoad() {
+        //after loading
         super.viewDidLoad()
     }
 

@@ -42,7 +42,7 @@
 		6470C76423556764005CB3FA = {
 			isa = PBXGroup;
 			children = (
-				6470C76F23556764005CB3FA /* Project 3 */,
+				6470C76F23556764005CB3FA /* Slanguage */,
 				6470C76E23556764005CB3FA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,7 +55,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6470C76F23556764005CB3FA /* Project 3 */ = {
+		6470C76F23556764005CB3FA /* Slanguage */ = {
 			isa = PBXGroup;
 			children = (
 				6470C77023556764005CB3FA /* AppDelegate.swift */,
@@ -67,7 +67,7 @@
 				6470C77D23556765005CB3FA /* LaunchScreen.storyboard */,
 				6470C78023556765005CB3FA /* Info.plist */,
 			);
-			path = "Project 3";
+			path = Slanguage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,7 +105,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6470C76823556764005CB3FA /* Build configuration list for PBXProject "Project 3 CS441" */;
+			buildConfigurationList = 6470C76823556764005CB3FA /* Build configuration list for PBXProject "Slanguage" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -292,7 +292,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M2SK5W4MK3;
-				INFOPLIST_FILE = "Project 3/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Slanguage/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -310,7 +310,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M2SK5W4MK3;
-				INFOPLIST_FILE = "Project 3/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Slanguage/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -325,7 +325,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6470C76823556764005CB3FA /* Build configuration list for PBXProject "Project 3 CS441" */ = {
+		6470C76823556764005CB3FA /* Build configuration list for PBXProject "Slanguage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6470C78123556765005CB3FA /* Debug */,
