@@ -9,9 +9,11 @@
 import UIKit
 
 var randomEnglishWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "I'm", "have", "a", "an", "really"]
+var randomSpanishWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
 
 var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos", ]
-var slangsArgTranslated = ["I'm screwed", "I have bad luck", "you're a jerk", "dude, I'm really lazy", "I'm not doing anything", "c'mon, get yourself together", "I am drunk", "not even close"]
+var slangsArgTranslated = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
+
 
 var userTranslation = [String]()
 
@@ -25,14 +27,28 @@ var buttonsAtTop = [UIButton]()
 var currLanguage = "Arg"
 var currString = 0
 
+//0 means Orig to Translated (orig), 1 means Translated to Orig
+var promptType = 0
+
 class Translate: UIViewController {
     
 @IBOutlet var textToTranslate : UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        newPhrase()
+        newPrompt()
         // Do any additional setup after loading the view.
+    }
+    
+    func newPrompt() {
+        let promptToChooseNum = Int.random(in: 0 ... 1)
+        if(promptToChooseNum == 0) {
+            newPhrase()
+            promptType = 0
+        } else {
+            newPhraseReversed()
+            promptType = 1
+        }
     }
     
     func newPhrase() {
@@ -48,7 +64,7 @@ class Translate: UIViewController {
         buttonsAtBottom.removeAll()
         wordsToTranslate = slangsArgTranslated[currString].components(separatedBy: " ")
         while(wordsToTranslate.count < 8) {
-            var randomWord = randomEnglishWords[Int.random(in: 0 ... randomEnglishWords.count - 1)]
+            let randomWord = randomEnglishWords[Int.random(in: 0 ... randomEnglishWords.count - 1)]
             if(wordsToTranslate.contains(randomWord)) {
                 continue
             }
@@ -81,6 +97,57 @@ class Translate: UIViewController {
 //            for word in wordsToClick {
 //                buttonsAtBottom.append(word)
 //            }
+            buttonsAtBottom = wordsToClick
+            self.view.addSubview(wordsToClick.last!)
+        }
+    }
+    
+    func newPhraseReversed() {
+        currString = Int.random(in: 0 ..< slangsArgTranslated.count)
+        textToTranslate.text = slangsArgTranslated[currString]
+        for button in wordsToClick {
+            button.removeFromSuperview()
+        }
+        userTranslation.removeAll()
+        wordsToTranslate.removeAll()
+        wordsToClick.removeAll()
+        buttonsAtTop.removeAll()
+        buttonsAtBottom.removeAll()
+        wordsToTranslate = slangsArgOrig[currString].components(separatedBy: " ")
+        while(wordsToTranslate.count < 8) {
+            let randomWord = randomSpanishWords[Int.random(in: 0 ... randomSpanishWords.count - 1)]
+            if(wordsToTranslate.contains(randomWord)) {
+                continue
+            }
+            wordsToTranslate.append(randomWord)
+        }
+        wordsToTranslate.shuffle()
+        for n in 0 ..< wordsToTranslate.count {
+            if(n == 0) {
+                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 500, width: 0, height: 0)))
+            } else if(n<4) {
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 500, width: 0, height: 0)))
+            } else if(n==4){
+                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 600, width: 0, height: 0)))
+            } else {
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
+            }
+            wordsToClick.last!.setTitle(wordsToTranslate[n], for: .normal)
+            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
+            wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClick.last!.layer.shadowColor = UIColor.darkGray.cgColor
+            wordsToClick.last!.layer.shadowRadius = 4
+            wordsToClick.last!.layer.shadowOpacity = 0.5
+            wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
+            wordsToClick.last!.titleLabel!.textAlignment = .center
+            wordsToClick.last!.tag = n
+            wordsToClick.last!.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+            //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
+            wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            //            for word in wordsToClick {
+            //                buttonsAtBottom.append(word)
+            //            }
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
         }
@@ -191,13 +258,24 @@ class Translate: UIViewController {
     
     @IBAction func checkButtonClicked(sender: UIButton!) {
         let finalTranslation = userTranslation.joined(separator: " ")
-        if(finalTranslation == slangsArgTranslated[currString]) {
-            print("Correct!")
-            newPhrase()
-        } else {
-            print("Given: " + finalTranslation)
-            print("Expected: " + slangsArgTranslated[currString])
-            print("Incorrect, please try again!")
+        if(promptType == 0) {
+            if(finalTranslation == slangsArgTranslated[currString]) {
+                print("Correct!")
+                newPrompt()
+            } else {
+                print("Given: " + finalTranslation)
+                print("Expected: " + slangsArgTranslated[currString])
+                print("Incorrect, please try again!")
+            }
+        } else if(promptType == 1) {
+            if(finalTranslation == slangsArgOrig[currString]) {
+                print("Correct!")
+                newPrompt()
+            } else {
+                print("Given: " + finalTranslation)
+                print("Expected: " + slangsArgOrig[currString])
+                print("Incorrect, please try again!")
+            }
         }
     }
     
