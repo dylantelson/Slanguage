@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
 
-var randomEnglishWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "I'm", "have", "a", "an", "really"]
+var randomEnglishWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
 var randomSpanishWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
 
 var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos", ]
@@ -23,6 +25,7 @@ var wordsToClick = [UIButton]()
 var buttonsAtBottom = [UIButton]()
 var buttonsAtTop = [UIButton]()
 
+var audioClipsArg = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos"]
 
 var currLanguage = "Arg"
 var currString = 0
@@ -32,7 +35,9 @@ var promptType = 0
 
 class Translate: UIViewController {
     
-@IBOutlet var textToTranslate : UILabel!
+    @IBOutlet var textToTranslate : UILabel!
+    
+    var player = AVAudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +105,7 @@ class Translate: UIViewController {
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
         }
+        playAudio()
     }
     
     func newPhraseReversed() {
@@ -270,12 +276,39 @@ class Translate: UIViewController {
         } else if(promptType == 1) {
             if(finalTranslation == slangsArgOrig[currString]) {
                 print("Correct!")
+                playAudio()
                 newPrompt()
             } else {
                 print("Given: " + finalTranslation)
                 print("Expected: " + slangsArgOrig[currString])
                 print("Incorrect, please try again!")
             }
+        }
+    }
+    
+    func playAudio() {
+        print(currString)
+        guard let url = Bundle.main.url(forResource: audioClipsArg[currString], withExtension: "mp3") else {
+            print("Cannot find audio file")
+            return
+        }
+        do {
+            /// this codes for making this app ready to takeover the device audio
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            /// change fileTypeHint according to the type of your audio file (you can omit this)
+            
+            /// for iOS 11 onward, use :
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            /// else :
+            /// player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3)
+            
+            // no need for prepareToPlay because prepareToPlay is happen automatically when calling play()
+            player.play()
+        } catch let error as NSError {
+            print("error: \(error.localizedDescription)")
         }
     }
     

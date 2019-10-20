@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		641ECD77235D124100EDCABE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 641ECD76235D124100EDCABE /* AVFoundation.framework */; };
+		641ECD79235D138600EDCABE /* chetengomuchafiaca.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD78235D138600EDCABE /* chetengomuchafiaca.mp3 */; };
+		641ECD83235D144500EDCABE /* daleponetelaspilas.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD7C235D144400EDCABE /* daleponetelaspilas.mp3 */; };
+		641ECD84235D144500EDCABE /* estoyalhorno.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD7D235D144400EDCABE /* estoyalhorno.mp3 */; };
+		641ECD85235D144500EDCABE /* tengomalaleche.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD7E235D144400EDCABE /* tengomalaleche.mp3 */; };
+		641ECD86235D144500EDCABE /* niapalos.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD7F235D144400EDCABE /* niapalos.mp3 */; };
+		641ECD87235D144500EDCABE /* estoyrealpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD80235D144500EDCABE /* estoyrealpedo.mp3 */; };
+		641ECD88235D144500EDCABE /* estoyenpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD81235D144500EDCABE /* estoyenpedo.mp3 */; };
+		641ECD89235D144500EDCABE /* sosunboludo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD82235D144500EDCABE /* sosunboludo.mp3 */; };
 		6470C77123556764005CB3FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6470C77023556764005CB3FA /* AppDelegate.swift */; };
 		6470C77A23556764005CB3FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6470C77823556764005CB3FA /* Main.storyboard */; };
 		6470C77C23556765005CB3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6470C77B23556765005CB3FA /* Assets.xcassets */; };
@@ -15,6 +24,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		641ECD76235D124100EDCABE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		641ECD78235D138600EDCABE /* chetengomuchafiaca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = chetengomuchafiaca.mp3; path = ../../../Downloads/chetengomuchafiaca.mp3; sourceTree = "<group>"; };
+		641ECD7B235D13D200EDCABE /* chetengomuchafiaca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chetengomuchafiaca.mp3; sourceTree = "<group>"; };
+		641ECD7C235D144400EDCABE /* daleponetelaspilas.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = daleponetelaspilas.mp3; path = ../../../../Downloads/daleponetelaspilas.mp3; sourceTree = "<group>"; };
+		641ECD7D235D144400EDCABE /* estoyalhorno.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = estoyalhorno.mp3; path = ../../../../Downloads/estoyalhorno.mp3; sourceTree = "<group>"; };
+		641ECD7E235D144400EDCABE /* tengomalaleche.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = tengomalaleche.mp3; path = ../../../../Downloads/tengomalaleche.mp3; sourceTree = "<group>"; };
+		641ECD7F235D144400EDCABE /* niapalos.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = niapalos.mp3; path = ../../../../Downloads/niapalos.mp3; sourceTree = "<group>"; };
+		641ECD80235D144500EDCABE /* estoyrealpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = estoyrealpedo.mp3; path = ../../../../Downloads/estoyrealpedo.mp3; sourceTree = "<group>"; };
+		641ECD81235D144500EDCABE /* estoyenpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = estoyenpedo.mp3; path = ../../../../Downloads/estoyenpedo.mp3; sourceTree = "<group>"; };
+		641ECD82235D144500EDCABE /* sosunboludo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = sosunboludo.mp3; path = ../../../../Downloads/sosunboludo.mp3; sourceTree = "<group>"; };
 		6470C76D23556764005CB3FA /* Project 3 CS441.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 3 CS441.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6470C77023556764005CB3FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6470C77923556764005CB3FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -29,17 +48,42 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				641ECD77235D124100EDCABE /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		641ECD75235D124000EDCABE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				641ECD76235D124100EDCABE /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		641ECD7A235D13C900EDCABE /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				641ECD7C235D144400EDCABE /* daleponetelaspilas.mp3 */,
+				641ECD7D235D144400EDCABE /* estoyalhorno.mp3 */,
+				641ECD81235D144500EDCABE /* estoyenpedo.mp3 */,
+				641ECD80235D144500EDCABE /* estoyrealpedo.mp3 */,
+				641ECD7F235D144400EDCABE /* niapalos.mp3 */,
+				641ECD82235D144500EDCABE /* sosunboludo.mp3 */,
+				641ECD7E235D144400EDCABE /* tengomalaleche.mp3 */,
+				641ECD7B235D13D200EDCABE /* chetengomuchafiaca.mp3 */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		6470C76423556764005CB3FA = {
 			isa = PBXGroup;
 			children = (
 				6470C76F23556764005CB3FA /* Slanguage */,
 				6470C76E23556764005CB3FA /* Products */,
+				641ECD75235D124000EDCABE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,6 +98,8 @@
 		6470C76F23556764005CB3FA /* Slanguage */ = {
 			isa = PBXGroup;
 			children = (
+				641ECD78235D138600EDCABE /* chetengomuchafiaca.mp3 */,
+				641ECD7A235D13C900EDCABE /* Audio */,
 				6470C77023556764005CB3FA /* AppDelegate.swift */,
 				64DFFA09235906E7005EE2FA /* Translate.swift */,
 				6470C77823556764005CB3FA /* Main.storyboard */,
@@ -122,9 +168,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				641ECD88235D144500EDCABE /* estoyenpedo.mp3 in Resources */,
 				6470C77F23556765005CB3FA /* LaunchScreen.storyboard in Resources */,
+				641ECD89235D144500EDCABE /* sosunboludo.mp3 in Resources */,
+				641ECD86235D144500EDCABE /* niapalos.mp3 in Resources */,
 				6470C77C23556765005CB3FA /* Assets.xcassets in Resources */,
+				641ECD85235D144500EDCABE /* tengomalaleche.mp3 in Resources */,
+				641ECD83235D144500EDCABE /* daleponetelaspilas.mp3 in Resources */,
+				641ECD87235D144500EDCABE /* estoyrealpedo.mp3 in Resources */,
+				641ECD84235D144500EDCABE /* estoyalhorno.mp3 in Resources */,
 				6470C77A23556764005CB3FA /* Main.storyboard in Resources */,
+				641ECD79235D138600EDCABE /* chetengomuchafiaca.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
