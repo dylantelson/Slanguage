@@ -8,12 +8,11 @@
 
 import UIKit
 import AVFoundation
-import AVKit
 
 var randomEnglishWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
 var randomSpanishWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
 
-var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos", ]
+var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
 var slangsArgTranslated = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
 
 
@@ -38,6 +37,7 @@ class Translate: UIViewController {
     @IBOutlet var textToTranslate : UILabel!
     @IBOutlet var nextButton : UIButton!
     @IBOutlet var checkButton : UIButton!
+    @IBOutlet var hearButton : UIButton!
     
     var player = AVAudioPlayer()
     
@@ -109,6 +109,12 @@ class Translate: UIViewController {
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
         }
+        print("curr: " + String(currString))
+        textToTranslate.sizeToFit()
+        textToTranslate.center = view.center
+        textToTranslate.frame.origin.y = 220
+        //hearButton.frame.origin.x = textToTranslate.frame.origin.x - 60
+        hearButton.isEnabled = true
         playAudio()
     }
     
@@ -161,93 +167,161 @@ class Translate: UIViewController {
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
         }
+        textToTranslate.sizeToFit()
+        textToTranslate.center = view.center
+        textToTranslate.frame.origin.y = 220
+        hearButton.isEnabled = false
+        //hearButton.frame.origin.x = textToTranslate.frame.origin.x - 60
     }
     
     @objc func buttonClicked(sender: UIButton!) {
         if(sender.frame.origin.y >= 500) {
             let ind = buttonsAtBottom.firstIndex(of: sender)!
             if(ind < buttonsAtBottom.count - 1) {
-                buttonsAtBottom[ind+1].frame.origin.x = buttonsAtBottom[ind].frame.origin.x + buttonsAtBottom[ind].frame.width + 15
+                //buttonsAtBottom[ind+1].frame.origin.x = buttonsAtBottom[ind].frame.origin.x + buttonsAtBottom[ind].frame.width + 15
+                UIView.animate(withDuration: 0.2, animations: {
+                    buttonsAtBottom[ind+1].frame = CGRect(x: buttonsAtBottom[ind].frame.origin.x + buttonsAtBottom[ind].frame.width + 15, y: buttonsAtBottom[ind+1].frame.origin.y, width: buttonsAtBottom[ind+1].frame.width, height: buttonsAtBottom[ind+1].frame.height)
+                })
                 buttonsAtBottom.remove(at: ind)
             } else {
                 buttonsAtBottom.remove(at: ind)
             }
             for n in buttonsAtBottom.distance(from: buttonsAtBottom.startIndex, to: ind) ..< buttonsAtBottom.count {
-                print(n)
                 if(n == 3) {
-                    buttonsAtBottom[3].frame.origin.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
-                    buttonsAtBottom[3].frame.origin.y = 500
+                    var dest = CGPoint(x: 0, y: 0)
+//                    buttonsAtBottom[3].frame.origin.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
+//                    buttonsAtBottom[3].frame.origin.y = 500
+                    dest.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
+                    dest.y = 500
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtBottom[3].frame = CGRect(x: dest.x, y: dest.y, width: buttonsAtBottom[3].frame.size.width, height: buttonsAtBottom[3].frame.size.height)
+                    })
                 }
                 if(n == 4) {
-                    buttonsAtBottom[4].frame.origin.x = 100
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtBottom[4].frame = CGRect(x: 100, y: buttonsAtBottom[4].frame.origin.y, width: buttonsAtBottom[4].frame.size.width, height: buttonsAtBottom[4].frame.size.height)
+                    })
                 } else if(n == 5) {
                     //buttonsAtBottom[4].frame.origin.x = 100
-                    buttonsAtBottom[5].frame.origin.x = buttonsAtBottom[4].frame.origin.x + buttonsAtBottom[4].frame.width + 15
+                    //buttonsAtBottom[5].frame.origin.x = buttonsAtBottom[4].frame.origin.x + buttonsAtBottom[4].frame.width + 15
+                    
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtBottom[5].frame = CGRect(x: buttonsAtBottom[4].frame.origin.x + buttonsAtBottom[4].frame.width + 15, y: buttonsAtBottom[5].frame.origin.y, width: buttonsAtBottom[5].frame.size.width, height: buttonsAtBottom[5].frame.size.height)
+                    })
+                    
                     if(buttonsAtBottom.count > 6) {
-                        buttonsAtBottom[6].frame.origin.x = buttonsAtBottom[5].frame.origin.x + buttonsAtBottom[5].frame.width + 15
+//                        buttonsAtBottom[6].frame.origin.x = buttonsAtBottom[5].frame.origin.x + buttonsAtBottom[5].frame.width + 15
+                        UIView.animate(withDuration: 0.2, animations: {
+                            buttonsAtBottom[6].frame = CGRect(x: buttonsAtBottom[5].frame.origin.x + buttonsAtBottom[5].frame.width + 15, y: buttonsAtBottom[6].frame.origin.y, width: buttonsAtBottom[6].frame.size.width, height: buttonsAtBottom[6].frame.size.height)
+                        })
                         continue
                     }
                 }
                 else if(n > 0) {
-                    buttonsAtBottom[n].frame.origin.x = buttonsAtBottom[n-1].frame.origin.x + buttonsAtBottom[n-1].frame.width + 15
+                    //buttonsAtBottom[n].frame.origin.x = buttonsAtBottom[n-1].frame.origin.x + buttonsAtBottom[n-1].frame.width + 15
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtBottom[n].frame = CGRect(x: buttonsAtBottom[n-1].frame.origin.x + buttonsAtBottom[n-1].frame.width + 15, y: buttonsAtBottom[n].frame.origin.y, width: buttonsAtBottom[n].frame.size.width, height: buttonsAtBottom[n].frame.size.height)
+                    })
                 } else {
-                    buttonsAtBottom[n].frame.origin.x = 100
+                    //buttonsAtBottom[n].frame.origin.x = 100
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtBottom[n].frame = CGRect(x: 100, y: buttonsAtBottom[n].frame.origin.y, width: buttonsAtBottom[n].frame.size.width, height: buttonsAtBottom[n].frame.size.height)
+                    })
                 }
             }
             //buttonsAtBottom.remove(at: buttonsAtBottom.firstIndex(of: sender)!)
+            var dest = CGPoint(x: 0, y: 0)
             if(userTranslation.count == 0 || buttonsAtTop.count == 4) {
-                sender.frame.origin.x = 100
+                //sender.frame.origin.x = 100
+                dest.x = 100
             } else {
-                sender.frame.origin.x = buttonsAtTop.last!.frame.origin.x + buttonsAtTop.last!.frame.width + 15
+                //sender.frame.origin.x = buttonsAtTop.last!.frame.origin.x + buttonsAtTop.last!.frame.width + 15
+                dest.x = buttonsAtTop.last!.frame.origin.x + buttonsAtTop.last!.frame.width + 15
             }
             if(buttonsAtTop.count < 4) {
-                sender.frame.origin.y = 300
+                //sender.frame.origin.y = 300
+                dest.y = 300
             } else {
-                sender.frame.origin.y = 400
+                //sender.frame.origin.y = 400
+                dest.y = 400
             }
+            UIView.animate(withDuration: 0.2, animations: {
+                sender.frame = CGRect(x: dest.x, y: dest.y, width: sender.frame.size.width, height: sender.frame.size.height)
+            })
             buttonsAtTop.append(sender)
             userTranslation.append(sender.titleLabel!.text!)
         } else if(sender.frame.origin.y <= 400) {
             let ind = buttonsAtTop.firstIndex(of: sender)!
             if(ind < buttonsAtTop.count - 1) {
-                buttonsAtTop[ind+1].frame.origin.x = buttonsAtTop[ind].frame.origin.x + buttonsAtTop[ind].frame.width + 15
+                //buttonsAtTop[ind+1].frame.origin.x = buttonsAtTop[ind].frame.origin.x + buttonsAtTop[ind].frame.width + 15
+                UIView.animate(withDuration: 0.2, animations: {
+                    buttonsAtTop[ind+1].frame = CGRect(x: buttonsAtTop[ind].frame.origin.x + buttonsAtTop[ind].frame.width + 15, y: buttonsAtTop[ind+1].frame.origin.y, width: buttonsAtTop[ind+1].frame.width, height: buttonsAtTop[ind+1].frame.height)
+                })
                 buttonsAtTop.remove(at: ind)
             } else {
                 buttonsAtTop.remove(at: ind)
             }
             for n in buttonsAtTop.distance(from: buttonsAtTop.startIndex, to: ind) ..< buttonsAtTop.count {
-                print(n)
                 if(n == 3) {
-                    buttonsAtTop[3].frame.origin.x = buttonsAtTop[2].frame.origin.x + buttonsAtTop[2].frame.width + 15
-                    buttonsAtTop[3].frame.origin.y = 300
+//                    buttonsAtTop[3].frame.origin.x = buttonsAtTop[2].frame.origin.x + buttonsAtTop[2].frame.width + 15
+//                    buttonsAtTop[3].frame.origin.y = 300
+                    var dest = CGPoint(x: 0, y: 0)
+                    dest.x = buttonsAtTop[2].frame.origin.x + buttonsAtTop[2].frame.width + 15
+                    dest.y = 300
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtTop[3].frame = CGRect(x: dest.x, y: dest.y, width: buttonsAtTop[3].frame.size.width, height: buttonsAtTop[3].frame.size.height)
+                    })
                 }
                 if(n == 4) {
-                    buttonsAtTop[4].frame.origin.x = 100
+                    //buttonsAtTop[4].frame.origin.x = 100
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtTop[4].frame = CGRect(x: 100, y: buttonsAtTop[4].frame.origin.y, width: buttonsAtTop[4].frame.size.width, height: buttonsAtTop[4].frame.size.height)
+                    })
                 } else if(n == 5) {
                     //buttonsAtBottom[4].frame.origin.x = 100
-                    buttonsAtTop[5].frame.origin.x = buttonsAtTop[4].frame.origin.x + buttonsAtTop[4].frame.width + 15
+                    //buttonsAtTop[5].frame.origin.x = buttonsAtTop[4].frame.origin.x + buttonsAtTop[4].frame.width + 15
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtTop[5].frame = CGRect(x: buttonsAtTop[4].frame.origin.x + buttonsAtTop[4].frame.width + 15, y: buttonsAtTop[5].frame.origin.y, width: buttonsAtTop[5].frame.size.width, height: buttonsAtTop[5].frame.size.height)
+                    })
                     if(buttonsAtTop.count > 6) {
-                        buttonsAtTop[6].frame.origin.x = buttonsAtTop[5].frame.origin.x + buttonsAtTop[5].frame.width + 15
+                        //buttonsAtTop[6].frame.origin.x = buttonsAtTop[5].frame.origin.x + buttonsAtTop[5].frame.width + 15
+                        UIView.animate(withDuration: 0.2, animations: {
+                            buttonsAtTop[6].frame = CGRect(x: buttonsAtTop[5].frame.origin.x + buttonsAtTop[5].frame.width + 15, y: buttonsAtTop[6].frame.origin.y, width: buttonsAtTop[6].frame.size.width, height: buttonsAtTop[6].frame.size.height)
+                        })
                         continue
                     }
                 }
                 else if(n > 0) {
-                    buttonsAtTop[n].frame.origin.x = buttonsAtTop[n-1].frame.origin.x + buttonsAtTop[n-1].frame.width + 15
+                    //buttonsAtTop[n].frame.origin.x = buttonsAtTop[n-1].frame.origin.x + buttonsAtTop[n-1].frame.width + 15
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtTop[n].frame = CGRect(x: buttonsAtTop[n-1].frame.origin.x + buttonsAtTop[n-1].frame.width + 15, y: buttonsAtTop[n].frame.origin.y, width: buttonsAtTop[n].frame.size.width, height: buttonsAtTop[n].frame.size.height)
+                    })
                 } else {
-                    buttonsAtTop[n].frame.origin.x = 100
+                    //buttonsAtTop[n].frame.origin.x = 100
+                    UIView.animate(withDuration: 0.2, animations: {
+                        buttonsAtTop[n].frame = CGRect(x: 100, y: buttonsAtTop[n].frame.origin.y, width: buttonsAtTop[n].frame.size.width, height: buttonsAtTop[n].frame.size.height)
+                    })
                 }
             }
             //buttonsAtTop.remove(at: buttonsAtTop.firstIndex(of: sender)!)
+            var dest = CGPoint(x: 0, y: 0)
             if(buttonsAtBottom.count == 0 || buttonsAtBottom.count == 4) {
-                sender.frame.origin.x = 100
+                //sender.frame.origin.x = 100
+                dest.x = 100
             } else {
-                sender.frame.origin.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
+                //sender.frame.origin.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
+                dest.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
             }
             if(buttonsAtBottom.count < 4) {
-                sender.frame.origin.y = 500
+                //sender.frame.origin.y = 500
+                dest.y = 500
             } else {
-                sender.frame.origin.y = 600
+                //sender.frame.origin.y = 600
+                dest.y = 600
             }
+            UIView.animate(withDuration: 0.2, animations: {
+                sender.frame = CGRect(x: dest.x, y: dest.y, width: sender.frame.size.width, height: sender.frame.size.height)
+            })
             buttonsAtBottom.append(sender)
 //            var rightMostIndex = 0
 //            var rightMostXValue = 0
@@ -282,6 +356,7 @@ class Translate: UIViewController {
         } else if(promptType == 1) {
             if(finalTranslation == slangsArgOrig[currString]) {
                 print("Correct!")
+                hearButton.isEnabled = true
                 playAudio()
                 nextButton.isEnabled = true
                 checkButton.isEnabled = false
@@ -297,6 +372,11 @@ class Translate: UIViewController {
         newPrompt()
     }
     
+    @IBAction func hearButtonClicked(sender: UIButton!) {
+        playAudio()
+    }
+    
+    //learned how to play audio from: https://stackoverflow.com/questions/32036146/how-to-play-a-sound-using-swift
     func playAudio() {
         print(currString)
         guard let url = Bundle.main.url(forResource: audioClipsArg[currString], withExtension: "mp3") else {
@@ -304,19 +384,10 @@ class Translate: UIViewController {
             return
         }
         do {
-            /// this codes for making this app ready to takeover the device audio
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
             try AVAudioSession.sharedInstance().setActive(true)
-            
-            /// change fileTypeHint according to the type of your audio file (you can omit this)
-            
-            /// for iOS 11 onward, use :
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-            
-            /// else :
-            /// player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3)
-            
-            // no need for prepareToPlay because prepareToPlay is happen automatically when calling play()
+
             player.play()
         } catch let error as NSError {
             print("error: \(error.localizedDescription)")
