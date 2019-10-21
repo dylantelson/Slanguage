@@ -36,6 +36,8 @@ var promptType = 0
 class Translate: UIViewController {
     
     @IBOutlet var textToTranslate : UILabel!
+    @IBOutlet var nextButton : UIButton!
+    @IBOutlet var checkButton : UIButton!
     
     var player = AVAudioPlayer()
     
@@ -46,6 +48,8 @@ class Translate: UIViewController {
     }
     
     func newPrompt() {
+        nextButton.isEnabled = false
+        checkButton.isEnabled = true
         let promptToChooseNum = Int.random(in: 0 ... 1)
         if(promptToChooseNum == 0) {
             newPhrase()
@@ -267,7 +271,9 @@ class Translate: UIViewController {
         if(promptType == 0) {
             if(finalTranslation == slangsArgTranslated[currString]) {
                 print("Correct!")
-                newPrompt()
+                nextButton.isEnabled = true
+                checkButton.isEnabled = false
+                
             } else {
                 print("Given: " + finalTranslation)
                 print("Expected: " + slangsArgTranslated[currString])
@@ -277,13 +283,18 @@ class Translate: UIViewController {
             if(finalTranslation == slangsArgOrig[currString]) {
                 print("Correct!")
                 playAudio()
-                newPrompt()
+                nextButton.isEnabled = true
+                checkButton.isEnabled = false
             } else {
                 print("Given: " + finalTranslation)
                 print("Expected: " + slangsArgOrig[currString])
                 print("Incorrect, please try again!")
             }
         }
+    }
+    
+    @IBAction func nextButtonClicked(sender: UIButton!) {
+        newPrompt()
     }
     
     func playAudio() {

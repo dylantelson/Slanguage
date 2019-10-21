@@ -85,6 +85,7 @@
                                 <state key="normal" title="Next"/>
                                 <connections>
                                     <action selector="checkButtonClickedWithSender:" destination="aMj-cN-vxT" eventType="touchUpInside" id="cKo-Kp-YSx"/>
+                                    <action selector="nextButtonClickedWithSender:" destination="aMj-cN-vxT" eventType="touchUpInside" id="6Q6-yz-AQe"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Text to Translate:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRG-hR-YBJ">
@@ -108,6 +109,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Learn" id="Z6O-xx-HtC"/>
                     <connections>
+                        <outlet property="checkButton" destination="vjU-Ds-NtC" id="WAF-JT-0KV"/>
+                        <outlet property="nextButton" destination="zWE-Rr-9T2" id="GhW-vK-Nmd"/>
                         <outlet property="textToTranslate" destination="JJY-bd-6RJ" id="BBx-Bo-iGR"/>
                     </connections>
                 </viewController>
