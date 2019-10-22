@@ -15,6 +15,7 @@ var randomSpanishWords = ["pero", "no", "la", "verdad", "terrible", "soy", "lech
 var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
 var slangsArgTranslated = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
 
+var readyForNext = true
 
 var userTranslation = [String]()
 
@@ -35,21 +36,31 @@ var promptType = 0
 class Translate: UIViewController {
     
     @IBOutlet var textToTranslate : UILabel!
-    @IBOutlet var nextButton : UIButton!
     @IBOutlet var checkButton : UIButton!
     @IBOutlet var hearButton : UIButton!
+    @IBOutlet var correctPopup : UIView!
     
     var player = AVAudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.sendSubviewToBack(correctPopup)
+        checkButton.backgroundColor = UIColor(red: 0.419, green: 0.73, blue: 0.925, alpha: 1)
+        checkButton.layer.cornerRadius = checkButton.frame.height/2
+        checkButton.layer.shadowColor = UIColor.darkGray.cgColor
+        checkButton.layer.shadowRadius = 4
+        checkButton.layer.shadowOpacity = 0.5
+        checkButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        checkButton.titleLabel!.textAlignment = .center
+        checkButton.setTitleColor(UIColor.white, for: .normal)
         newPrompt()
         // Do any additional setup after loading the view.
     }
     
     func newPrompt() {
-        nextButton.isEnabled = false
-        checkButton.isEnabled = true
+        correctPopup.frame.origin.y = 900
+        readyForNext = false
+        checkButton.setTitle("Check", for: .normal)
         let promptToChooseNum = Int.random(in: 0 ... 1)
         if(promptToChooseNum == 0) {
             newPhrase()
@@ -341,35 +352,40 @@ class Translate: UIViewController {
     }
     
     @IBAction func checkButtonClicked(sender: UIButton!) {
-        let finalTranslation = userTranslation.joined(separator: " ")
-        if(promptType == 0) {
-            if(finalTranslation == slangsArgTranslated[currString]) {
-                print("Correct!")
-                nextButton.isEnabled = true
-                checkButton.isEnabled = false
-                
-            } else {
-                print("Given: " + finalTranslation)
-                print("Expected: " + slangsArgTranslated[currString])
-                print("Incorrect, please try again!")
+        if(readyForNext == false) {
+            let finalTranslation = userTranslation.joined(separator: " ")
+            if(promptType == 0) {
+                if(finalTranslation == slangsArgTranslated[currString]) {
+                    print("Correct!")
+                    readyForNext = true
+                    checkButton.setTitle("Next", for: .normal)
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.correctPopup.frame.origin.y = 730
+                    })
+                } else {
+                    print("Given: " + finalTranslation)
+                    print("Expected: " + slangsArgTranslated[currString])
+                    print("Incorrect, please try again!")
+                }
+            } else if(promptType == 1) {
+                if(finalTranslation == slangsArgOrig[currString]) {
+                    print("Correct!")
+                    hearButton.isEnabled = true
+                    playAudio()
+                    readyForNext = true
+                    checkButton.setTitle("Next", for: .normal)
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.correctPopup.frame.origin.y = 730
+                    })
+                } else {
+                    print("Given: " + finalTranslation)
+                    print("Expected: " + slangsArgOrig[currString])
+                    print("Incorrect, please try again!")
+                }
             }
-        } else if(promptType == 1) {
-            if(finalTranslation == slangsArgOrig[currString]) {
-                print("Correct!")
-                hearButton.isEnabled = true
-                playAudio()
-                nextButton.isEnabled = true
-                checkButton.isEnabled = false
-            } else {
-                print("Given: " + finalTranslation)
-                print("Expected: " + slangsArgOrig[currString])
-                print("Incorrect, please try again!")
-            }
+        } else {
+            newPrompt()
         }
-    }
-    
-    @IBAction func nextButtonClicked(sender: UIButton!) {
-        newPrompt()
     }
     
     @IBAction func hearButtonClicked(sender: UIButton!) {
