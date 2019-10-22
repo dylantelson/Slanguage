@@ -1,10 +1,15 @@
-//
-//  ViewController.swift
-//  asd
-//
-//  Created by Dylan Telson on 10/17/19.
-//  Copyright © 2019 Dylan Telson. All rights reserved.
-//
+/* MAIN TODOLIST:
+ 1) Fix up the way buttons work (they should not go off-screen if too long like currently, and should be able to be dragged)
+ 2) Add more languages (first Australian English maybe) (Way to add more languages would probably be make an int called currLanguage, where 0 = arg 1 = aus etc., then make an array filled with arrays of those languages in the same order (for example: var languagesOrig = [slangsArgOrig, slangsAusOrig, etc.] and same for languagesTranslated) and instead of using slangsArgTranslated[currString] it would be languagesTranslated[currLanguage][currString]
+ 3) Add a screen where you can choose which language to learn
+ 4) Design the app so it looks decent (maybe get Jacob in on it). This includes changing the look of it, adding icons for the tabview, hear button etc.
+ 5) Add more phrases and slang of course
+ 6) Add more types of minigames- look at other language learning apps and see what they do
+ 7) Add points system and leaderboard
+ 8) Make it so when the user is wrong, it says Incorrect! instead of correct and maybe add a lives system or something.
+ 9) Add polish to when you get it right, wrong, etc.
+ 10) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+*/
 
 import UIKit
 import AVFoundation
@@ -14,6 +19,10 @@ var randomSpanishWords = ["pero", "no", "la", "verdad", "terrible", "soy", "lech
 
 var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
 var slangsArgTranslated = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
+
+var currSlangOrig = [String]()
+var currSlangTranslated = [String]()
+var currAudioClips = [String]()
 
 var readyForNext = true
 
@@ -30,6 +39,8 @@ var audioClipsArg = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengom
 var currLanguage = "Arg"
 var currString = 0
 
+var initialAmountToLearn = 0
+
 //0 means Orig to Translated (orig), 1 means Translated to Orig
 var promptType = 0
 
@@ -39,12 +50,15 @@ class Translate: UIViewController {
     @IBOutlet var checkButton : UIButton!
     @IBOutlet var hearButton : UIButton!
     @IBOutlet var correctPopup : UIView!
+    @IBOutlet var incorrectPopup : UIView!
+    @IBOutlet var progressBar : UIProgressView!
     
     var player = AVAudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.sendSubviewToBack(correctPopup)
+        view.sendSubviewToBack(incorrectPopup)
         checkButton.backgroundColor = UIColor(red: 0.419, green: 0.73, blue: 0.925, alpha: 1)
         checkButton.layer.cornerRadius = checkButton.frame.height/2
         checkButton.layer.shadowColor = UIColor.darkGray.cgColor
@@ -53,12 +67,30 @@ class Translate: UIViewController {
         checkButton.layer.shadowOffset = CGSize(width: 0, height: 0)
         checkButton.titleLabel!.textAlignment = .center
         checkButton.setTitleColor(UIColor.white, for: .normal)
-        newPrompt()
+        //learned to use CGAffineTransform from https://stackoverflow.com/questions/31259993/change-height-of-uiprogressview-in-swift/31260320
+        progressBar.transform = CGAffineTransform(scaleX: 1, y: 3)
+        startLearning()
         // Do any additional setup after loading the view.
+    }
+    
+    func startLearning() {
+        progressBar.progress = 0
+        for word  in slangsArgOrig {
+            currSlangOrig.append(word)
+        }
+        for word  in slangsArgTranslated {
+            currSlangTranslated.append(word)
+        }
+        for clip in audioClipsArg {
+            currAudioClips.append(clip)
+        }
+        initialAmountToLearn = currSlangOrig.count
+        newPrompt()
     }
     
     func newPrompt() {
         correctPopup.frame.origin.y = 900
+        incorrectPopup.frame.origin.y = 900
         readyForNext = false
         checkButton.setTitle("Check", for: .normal)
         let promptToChooseNum = Int.random(in: 0 ... 1)
@@ -72,8 +104,8 @@ class Translate: UIViewController {
     }
     
     func newPhrase() {
-        currString = Int.random(in: 0 ..< slangsArgOrig.count)
-        textToTranslate.text = slangsArgOrig[currString]
+        currString = Int.random(in: 0 ..< currSlangOrig.count)
+        textToTranslate.text = currSlangOrig[currString]
         for button in wordsToClick {
             button.removeFromSuperview()
         }
@@ -82,7 +114,7 @@ class Translate: UIViewController {
         wordsToClick.removeAll()
         buttonsAtTop.removeAll()
         buttonsAtBottom.removeAll()
-        wordsToTranslate = slangsArgTranslated[currString].components(separatedBy: " ")
+        wordsToTranslate = currSlangTranslated[currString].components(separatedBy: " ")
         while(wordsToTranslate.count < 8) {
             let randomWord = randomEnglishWords[Int.random(in: 0 ... randomEnglishWords.count - 1)]
             if(wordsToTranslate.contains(randomWord)) {
@@ -130,8 +162,8 @@ class Translate: UIViewController {
     }
     
     func newPhraseReversed() {
-        currString = Int.random(in: 0 ..< slangsArgTranslated.count)
-        textToTranslate.text = slangsArgTranslated[currString]
+        currString = Int.random(in: 0 ..< currSlangTranslated.count)
+        textToTranslate.text = currSlangTranslated[currString]
         for button in wordsToClick {
             button.removeFromSuperview()
         }
@@ -140,7 +172,7 @@ class Translate: UIViewController {
         wordsToClick.removeAll()
         buttonsAtTop.removeAll()
         buttonsAtBottom.removeAll()
-        wordsToTranslate = slangsArgOrig[currString].components(separatedBy: " ")
+        wordsToTranslate = currSlangOrig[currString].components(separatedBy: " ")
         while(wordsToTranslate.count < 8) {
             let randomWord = randomSpanishWords[Int.random(in: 0 ... randomSpanishWords.count - 1)]
             if(wordsToTranslate.contains(randomWord)) {
@@ -355,36 +387,63 @@ class Translate: UIViewController {
         if(readyForNext == false) {
             let finalTranslation = userTranslation.joined(separator: " ")
             if(promptType == 0) {
-                if(finalTranslation == slangsArgTranslated[currString]) {
+                if(finalTranslation == currSlangTranslated[currString]) {
                     print("Correct!")
+                    currSlangOrig.remove(at: currString)
+                    currSlangTranslated.remove(at: currString)
+                    currAudioClips.remove(at: currString)
                     readyForNext = true
                     checkButton.setTitle("Next", for: .normal)
+                    progressBar.progress = Float(initialAmountToLearn - currSlangOrig.count)/Float(initialAmountToLearn)
                     UIView.animate(withDuration: 0.2, animations: {
                         self.correctPopup.frame.origin.y = 730
                     })
                 } else {
                     print("Given: " + finalTranslation)
-                    print("Expected: " + slangsArgTranslated[currString])
-                    print("Incorrect, please try again!")
+                    print("Expected: " + currSlangTranslated[currString])
+                    print("Incorrect!")
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.incorrectPopup.frame.origin.y = 730
+                    })
+                    readyForNext = true
+                    checkButton.setTitle("Next", for: .normal)
                 }
             } else if(promptType == 1) {
-                if(finalTranslation == slangsArgOrig[currString]) {
+                if(finalTranslation == currSlangOrig[currString]) {
                     print("Correct!")
-                    hearButton.isEnabled = true
                     playAudio()
+                    currSlangOrig.remove(at: currString)
+                    currSlangTranslated.remove(at: currString)
+                    currAudioClips.remove(at: currString)
+                    hearButton.isEnabled = true
                     readyForNext = true
                     checkButton.setTitle("Next", for: .normal)
+                    progressBar.progress = Float(initialAmountToLearn - currSlangOrig.count)/Float(initialAmountToLearn)
+                    print("init: " + String(initialAmountToLearn))
+                    print("curr: " + String(currSlangOrig.count))
+                    print("progressBar.progress: " + String(progressBar.progress))
                     UIView.animate(withDuration: 0.2, animations: {
                         self.correctPopup.frame.origin.y = 730
                     })
                 } else {
                     print("Given: " + finalTranslation)
-                    print("Expected: " + slangsArgOrig[currString])
-                    print("Incorrect, please try again!")
+                    print("Expected: " + currSlangOrig[currString])
+                    print("Incorrect!")
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.incorrectPopup.frame.origin.y = 730
+                    })
+                    readyForNext = true
+                    checkButton.setTitle("Next", for: .normal)
                 }
             }
         } else {
-            newPrompt()
+            if(currSlangOrig.count > 0) {
+                newPrompt()
+            } else {
+                //THIS HAPPENS WHEN IT IS FINISHED, SHOULD GO BACK TO PREVIOUS PAGE
+                //temporarily just restart current lesson
+                startLearning()
+            }
         }
     }
     
@@ -395,7 +454,7 @@ class Translate: UIViewController {
     //learned how to play audio from: https://stackoverflow.com/questions/32036146/how-to-play-a-sound-using-swift
     func playAudio() {
         print(currString)
-        guard let url = Bundle.main.url(forResource: audioClipsArg[currString], withExtension: "mp3") else {
+        guard let url = Bundle.main.url(forResource: currAudioClips[currString], withExtension: "mp3") else {
             print("Cannot find audio file")
             return
         }
