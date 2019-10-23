@@ -1,28 +1,58 @@
 /* MAIN TODOLIST:
  1) Fix up the way buttons work (they should not go off-screen if too long like currently, and should be able to be dragged)
- 2) Add more languages (first Australian English maybe) (Way to add more languages would probably be make an int called currLanguage, where 0 = arg 1 = aus etc., then make an array filled with arrays of those languages in the same order (for example: var languagesOrig = [slangsArgOrig, slangsAusOrig, etc.] and same for languagesTranslated) and instead of using slangsArgTranslated[currString] it would be languagesTranslated[currLanguage][currString]
- 3) Add a screen where you can choose which language to learn
- 4) Design the app so it looks decent (maybe get Jacob in on it). This includes changing the look of it, adding icons for the tabview, hear button etc.
- 5) Add more phrases and slang of course
- 6) Add more types of minigames- look at other language learning apps and see what they do
- 7) Add points system and leaderboard
- 8) Make it so when the user is wrong, it says Incorrect! instead of correct and maybe add a lives system or something.
- 9) Add polish to when you get it right, wrong, etc.
- 10) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+ 2) Add more languages
+ 3) Design the app so it looks decent (maybe get Jacob in on it). This includes changing the look of it, adding icons for the tabview, hear button etc.
+ 4) Add more phrases and slang of course
+ 5) Add more types of minigames- look at other language learning apps and see what they do
+ 6) Add points system and leaderboard
+ 7) Make it so when the user is wrong, it says Incorrect! instead of correct and maybe add a lives system or something.
+ 8) Add polish to when you get it right, wrong, etc.
+ 9) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
 */
 
 import UIKit
 import AVFoundation
 
-var randomEnglishWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
-var randomSpanishWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
+var randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
+var RandomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
+var randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
 
-var slangsArgOrig = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
-var slangsArgTranslated = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
+var randomOrigWordArray = [RandomArgWords, randomAusWords]
 
-var currSlangOrig = [String]()
-var currSlangTranslated = [String]()
-var currAudioClips = [String]()
+var slangsArgOrigPhrases = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
+var slangsArgTranslatedPhrases = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
+
+var slangsAusOrigPhrases = ["My son's room is a dog's breakfast", "Put the maccas on the barbie", "My ankle biter wants an avo"]
+var slangsAusTranslatedPhrases = ["My son's room is a mess", "Put the McDonalds on the barbecue", "My child wants an avocado"]
+
+var audioClipsArgPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos"]
+var audioClipsAusPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo"]
+
+var currSlangOrigPhrases = [String]()
+var currSlangTranslatedPhrases = [String]()
+var currAudioClipsPhrases = [String]()
+
+var slangsArgOrigWords = ["al horno", "mala leche", "boludo", "fiaca", "che", "pibe", "mina", "laburo", "pelotudo", "quilombo", "groso", "dale"]
+var slangsArgTranslatedWords = ["screwed", "bad luck", "jerk", "laziness", "dude", "guy", "girl", "work", "dumbass", "mess", "awesome", "c'mon"]
+
+var slangsAusOrigWords = ["bogan", "brolly", "ankle biter", "chook", "crikey", "dag", "dunny", "durry", "frothy", "sheila", "straya", "bruce"]
+var slangsAusTranslatedWords = ["redneck", "umbrella", "child", "chicken", "wow", "nerd", "toilet", "cigarette", "beer", "woman", "australia", "man"]
+
+//replace these with the words after recording them- for now just Spanish placeholders from the phrases
+var audioClipsArgWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+var audioClipsAusWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+
+var currSlangOrigWords = [String]()
+var currSlangTranslatedWords = [String]()
+var currAudioClipsWords = [String]()
+
+var languagesOrigPhrases = [slangsArgOrigPhrases, slangsAusOrigPhrases]
+var languagesTranslatedPhrases = [slangsArgTranslatedPhrases, slangsAusTranslatedPhrases]
+var languageAudioClipsPhrases = [audioClipsArgPhrases, audioClipsAusPhrases]
+
+var languagesOrigWords = [slangsArgOrigWords, slangsAusOrigWords]
+var languagesTranslatedWords = [slangsArgTranslatedWords, slangsAusTranslatedWords]
+var languageAudioClipsWords = [audioClipsArgWords, audioClipsAusWords]
 
 var readyForNext = true
 
@@ -34,9 +64,6 @@ var wordsToClick = [UIButton]()
 var buttonsAtBottom = [UIButton]()
 var buttonsAtTop = [UIButton]()
 
-var audioClipsArg = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos"]
-
-var currLanguage = "Arg"
 var currString = 0
 
 var initialAmountToLearn = 0
@@ -45,6 +72,17 @@ var initialAmountToLearn = 0
 var promptType = 0
 
 class Translate: UIViewController {
+    var currLanguage = 0
+    //currLanguage: 0 = Arg, 1 = Aus
+//    init(currLang: Int) {
+//        self.currLanguage = currLang
+//        super.init(nibName: "Test", bundle: nil)
+//    }
+//
+//    required init?(coder decoder: NSCoder) {
+//        currLanguage = 0
+//        super.init(coder: decoder)
+//    }
     
     @IBOutlet var textToTranslate : UILabel!
     @IBOutlet var checkButton : UIButton!
@@ -75,16 +113,31 @@ class Translate: UIViewController {
     
     func startLearning() {
         progressBar.progress = 0
-        for word  in slangsArgOrig {
-            currSlangOrig.append(word)
+        currSlangOrigPhrases.removeAll()
+        currSlangTranslatedPhrases.removeAll()
+        currAudioClipsPhrases.removeAll()
+        currSlangOrigWords.removeAll()
+        currSlangTranslatedWords.removeAll()
+        currAudioClipsWords.removeAll()
+        for word  in languagesOrigPhrases[currLanguage] {
+            currSlangOrigPhrases.append(word)
         }
-        for word  in slangsArgTranslated {
-            currSlangTranslated.append(word)
+        for word  in languagesTranslatedPhrases[currLanguage] {
+            currSlangTranslatedPhrases.append(word)
         }
-        for clip in audioClipsArg {
-            currAudioClips.append(clip)
+        for clip in languageAudioClipsPhrases[currLanguage] {
+            currAudioClipsPhrases.append(clip)
         }
-        initialAmountToLearn = currSlangOrig.count
+        for word in languagesOrigWords[currLanguage] {
+            currSlangOrigWords.append(word)
+        }
+        for word  in languagesTranslatedWords[currLanguage] {
+            currSlangTranslatedWords.append(word)
+        }
+        for clip in languageAudioClipsWords[currLanguage] {
+            currAudioClipsWords.append(clip)
+        }
+        initialAmountToLearn = currSlangOrigPhrases.count + currSlangOrigWords.count
         newPrompt()
     }
     
@@ -93,19 +146,35 @@ class Translate: UIViewController {
         incorrectPopup.frame.origin.y = 900
         readyForNext = false
         checkButton.setTitle("Check", for: .normal)
-        let promptToChooseNum = Int.random(in: 0 ... 1)
+        var promptToChooseNum = Int.random(in: 0 ... 1)
         if(promptToChooseNum == 0) {
-            newPhrase()
-            promptType = 0
-        } else {
-            newPhraseReversed()
-            promptType = 1
+            if(currSlangOrigPhrases.count > 0) {
+                promptType = 0
+                newPhrase()
+                return
+            } else {
+                promptToChooseNum = 2
+            }
+        }
+        if(promptToChooseNum == 1) {
+            if(currSlangOrigPhrases.count > 0) {
+                promptType = 1
+                newPhraseReversed()
+                return
+            } else {
+                promptToChooseNum = 2
+            }
+        }
+        if(promptToChooseNum == 2) {
+            promptType = 2
+            newWordPairer()
+            return
         }
     }
     
     func newPhrase() {
-        currString = Int.random(in: 0 ..< currSlangOrig.count)
-        textToTranslate.text = currSlangOrig[currString]
+        currString = Int.random(in: 0 ..< currSlangOrigPhrases.count)
+        textToTranslate.text = currSlangOrigPhrases[currString]
         for button in wordsToClick {
             button.removeFromSuperview()
         }
@@ -114,9 +183,9 @@ class Translate: UIViewController {
         wordsToClick.removeAll()
         buttonsAtTop.removeAll()
         buttonsAtBottom.removeAll()
-        wordsToTranslate = currSlangTranslated[currString].components(separatedBy: " ")
+        wordsToTranslate = currSlangTranslatedPhrases[currString].components(separatedBy: " ")
         while(wordsToTranslate.count < 8) {
-            let randomWord = randomEnglishWords[Int.random(in: 0 ... randomEnglishWords.count - 1)]
+            let randomWord = randomUsaWords[Int.random(in: 0 ... randomUsaWords.count - 1)]
             if(wordsToTranslate.contains(randomWord)) {
                 continue
             }
@@ -143,7 +212,7 @@ class Translate: UIViewController {
             wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClick.last!.titleLabel!.textAlignment = .center
             wordsToClick.last!.tag = n
-            wordsToClick.last!.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+            wordsToClick.last!.addTarget(self, action: #selector(buttonClickedPhrases), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
             wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
 //            for word in wordsToClick {
@@ -152,7 +221,6 @@ class Translate: UIViewController {
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
         }
-        print("curr: " + String(currString))
         textToTranslate.sizeToFit()
         textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
@@ -162,8 +230,8 @@ class Translate: UIViewController {
     }
     
     func newPhraseReversed() {
-        currString = Int.random(in: 0 ..< currSlangTranslated.count)
-        textToTranslate.text = currSlangTranslated[currString]
+        currString = Int.random(in: 0 ..< currSlangTranslatedPhrases.count)
+        textToTranslate.text = currSlangTranslatedPhrases[currString]
         for button in wordsToClick {
             button.removeFromSuperview()
         }
@@ -172,9 +240,9 @@ class Translate: UIViewController {
         wordsToClick.removeAll()
         buttonsAtTop.removeAll()
         buttonsAtBottom.removeAll()
-        wordsToTranslate = currSlangOrig[currString].components(separatedBy: " ")
+        wordsToTranslate = currSlangOrigPhrases[currString].components(separatedBy: " ")
         while(wordsToTranslate.count < 8) {
-            let randomWord = randomSpanishWords[Int.random(in: 0 ... randomSpanishWords.count - 1)]
+            let randomWord = randomOrigWordArray[currLanguage][Int.random(in: 0 ... randomOrigWordArray[currLanguage].count - 1)]
             if(wordsToTranslate.contains(randomWord)) {
                 continue
             }
@@ -201,7 +269,7 @@ class Translate: UIViewController {
             wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClick.last!.titleLabel!.textAlignment = .center
             wordsToClick.last!.tag = n
-            wordsToClick.last!.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+            wordsToClick.last!.addTarget(self, action: #selector(buttonClickedPhrases), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
             wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
             //            for word in wordsToClick {
@@ -217,7 +285,74 @@ class Translate: UIViewController {
         //hearButton.frame.origin.x = textToTranslate.frame.origin.x - 60
     }
     
-    @objc func buttonClicked(sender: UIButton!) {
+    func newWordPairer() {
+        var random1 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
+        var random2 = random1
+        var random3 = random1
+        var random4 = random1
+        while(random2 == random1) {
+            random2 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
+        }
+        while(random3 == random1 || random3 == random2) {
+            random3 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
+        }
+        while(random4 == random1 || random4 == random2 || random4 == random3) {
+            random4 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
+        }
+        var wordsOrig = [languagesOrigWords[currLanguage][random1], languagesOrigWords[currLanguage][random2], languagesOrigWords[currLanguage][random3], languagesOrigWords[currLanguage][random4]]
+        var wordsTranslated = [languagesTranslatedWords[currLanguage][random1], languagesTranslatedWords[currLanguage][random2], languagesTranslatedWords[currLanguage][random3], languagesTranslatedWords[currLanguage][random4]]
+        textToTranslate.text = "Tap the pairs"
+        for button in wordsToClick {
+            button.removeFromSuperview()
+        }
+        userTranslation.removeAll()
+        wordsToTranslate.removeAll()
+        wordsToClick.removeAll()
+        buttonsAtTop.removeAll()
+        buttonsAtBottom.removeAll()
+        //wordsToTranslate = currSlangTranslatedPhrases[currString].components(separatedBy: " ")
+        for n in 0 ..< 8 {
+            if(n == 0) {
+                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 500, width: 0, height: 0)))
+            } else if(n<4) {
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 500, width: 0, height: 0)))
+            } else if(n==4){
+                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 600, width: 0, height: 0)))
+            } else {
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
+            }
+            if(n < 4) {
+                wordsToClick.last!.setTitle(wordsOrig[n], for: .normal)
+            } else {
+                wordsToClick.last!.setTitle(wordsTranslated[n], for: .normal)
+            }
+            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
+            wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClick.last!.layer.shadowColor = UIColor.darkGray.cgColor
+            wordsToClick.last!.layer.shadowRadius = 4
+            wordsToClick.last!.layer.shadowOpacity = 0.5
+            wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
+            wordsToClick.last!.titleLabel!.textAlignment = .center
+            wordsToClick.last!.tag = n
+            wordsToClick.last!.addTarget(self, action: #selector(buttonClickedWords), for: .touchUpInside)
+            //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
+            wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            //            for word in wordsToClick {
+            //                buttonsAtBottom.append(word)
+            //            }
+            self.view.addSubview(wordsToClick.last!)
+        }
+        textToTranslate.sizeToFit()
+        textToTranslate.center = view.center
+        textToTranslate.frame.origin.y = 220
+    }
+    
+    @objc func buttonClickedWords(sender: UIButton!) {
+        //DO THIS, when a word is tapped highlight it, see what index # it is 
+    }
+    
+    @objc func buttonClickedPhrases(sender: UIButton!) {
         if(sender.frame.origin.y >= 500) {
             let ind = buttonsAtBottom.firstIndex(of: sender)!
             if(ind < buttonsAtBottom.count - 1) {
@@ -383,24 +518,31 @@ class Translate: UIViewController {
         }
     }
     
+    @IBAction func backButtonClicked(sender: UIButton!) {
+        let chooseLangScreen = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
+        self.present(chooseLangScreen, animated: true, completion: nil)
+    }
+    
     @IBAction func checkButtonClicked(sender: UIButton!) {
         if(readyForNext == false) {
             let finalTranslation = userTranslation.joined(separator: " ")
             if(promptType == 0) {
-                if(finalTranslation == currSlangTranslated[currString]) {
+                if(finalTranslation == currSlangTranslatedPhrases[currString]) {
                     print("Correct!")
-                    currSlangOrig.remove(at: currString)
-                    currSlangTranslated.remove(at: currString)
-                    currAudioClips.remove(at: currString)
+                    currSlangOrigPhrases.remove(at: currString)
+                    currSlangTranslatedPhrases.remove(at: currString)
                     readyForNext = true
                     checkButton.setTitle("Next", for: .normal)
-                    progressBar.progress = Float(initialAmountToLearn - currSlangOrig.count)/Float(initialAmountToLearn)
                     UIView.animate(withDuration: 0.2, animations: {
                         self.correctPopup.frame.origin.y = 730
+                        self.progressBar.setProgress(Float(initialAmountToLearn - currSlangOrigPhrases.count)/Float(initialAmountToLearn), animated: true)
                     })
+                    for word in wordsToClick {
+                        word.isEnabled = false
+                    }
                 } else {
                     print("Given: " + finalTranslation)
-                    print("Expected: " + currSlangTranslated[currString])
+                    print("Expected: " + currSlangTranslatedPhrases[currString])
                     print("Incorrect!")
                     UIView.animate(withDuration: 0.2, animations: {
                         self.incorrectPopup.frame.origin.y = 730
@@ -409,25 +551,24 @@ class Translate: UIViewController {
                     checkButton.setTitle("Next", for: .normal)
                 }
             } else if(promptType == 1) {
-                if(finalTranslation == currSlangOrig[currString]) {
+                if(finalTranslation == currSlangOrigPhrases[currString]) {
                     print("Correct!")
                     playAudio()
-                    currSlangOrig.remove(at: currString)
-                    currSlangTranslated.remove(at: currString)
-                    currAudioClips.remove(at: currString)
+                    currSlangOrigPhrases.remove(at: currString)
+                    currSlangTranslatedPhrases.remove(at: currString)
                     hearButton.isEnabled = true
                     readyForNext = true
                     checkButton.setTitle("Next", for: .normal)
-                    progressBar.progress = Float(initialAmountToLearn - currSlangOrig.count)/Float(initialAmountToLearn)
-                    print("init: " + String(initialAmountToLearn))
-                    print("curr: " + String(currSlangOrig.count))
-                    print("progressBar.progress: " + String(progressBar.progress))
                     UIView.animate(withDuration: 0.2, animations: {
                         self.correctPopup.frame.origin.y = 730
+                        self.progressBar.setProgress(Float(initialAmountToLearn - currSlangOrigPhrases.count)/Float(initialAmountToLearn), animated: true)
                     })
+                    for word in wordsToClick {
+                        word.isEnabled = false
+                    }
                 } else {
                     print("Given: " + finalTranslation)
-                    print("Expected: " + currSlangOrig[currString])
+                    print("Expected: " + currSlangOrigPhrases[currString])
                     print("Incorrect!")
                     UIView.animate(withDuration: 0.2, animations: {
                         self.incorrectPopup.frame.origin.y = 730
@@ -437,7 +578,9 @@ class Translate: UIViewController {
                 }
             }
         } else {
-            if(currSlangOrig.count > 0) {
+            if(currSlangOrigPhrases.count > 0) {
+                //remove curr audioclip here rather than in checkButtonClicked like other arrays because user may still press the Hear button after the translation is checked
+                currAudioClipsPhrases.remove(at: currString)
                 newPrompt()
             } else {
                 //THIS HAPPENS WHEN IT IS FINISHED, SHOULD GO BACK TO PREVIOUS PAGE
@@ -453,8 +596,7 @@ class Translate: UIViewController {
     
     //learned how to play audio from: https://stackoverflow.com/questions/32036146/how-to-play-a-sound-using-swift
     func playAudio() {
-        print(currString)
-        guard let url = Bundle.main.url(forResource: currAudioClips[currString], withExtension: "mp3") else {
+        guard let url = Bundle.main.url(forResource: currAudioClipsPhrases[currString], withExtension: "mp3") else {
             print("Cannot find audio file")
             return
         }
