@@ -68,6 +68,12 @@ var currString = 0
 
 var initialAmountToLearn = 0
 
+var currWordSelected : UIButton!
+var currWordSelectedOrig = true
+
+var numCorrectTapPairs = 0
+var indexesOfWordsTapPairs = [String]()
+
 //0 means Orig to Translated (orig), 1 means Translated to Orig
 var promptType = 0
 
@@ -112,7 +118,7 @@ class Translate: UIViewController {
     }
     
     func startLearning() {
-        progressBar.progress = 0
+        progressBar.setProgress(0, animated: false)
         currSlangOrigPhrases.removeAll()
         currSlangTranslatedPhrases.removeAll()
         currAudioClipsPhrases.removeAll()
@@ -137,7 +143,7 @@ class Translate: UIViewController {
         for clip in languageAudioClipsWords[currLanguage] {
             currAudioClipsWords.append(clip)
         }
-        initialAmountToLearn = currSlangOrigPhrases.count + currSlangOrigWords.count
+        initialAmountToLearn = currSlangOrigPhrases.count + currSlangOrigWords.count / 4
         newPrompt()
     }
     
@@ -146,7 +152,7 @@ class Translate: UIViewController {
         incorrectPopup.frame.origin.y = 900
         readyForNext = false
         checkButton.setTitle("Check", for: .normal)
-        var promptToChooseNum = Int.random(in: 0 ... 1)
+        var promptToChooseNum = Int.random(in: 0 ... 2)
         if(promptToChooseNum == 0) {
             if(currSlangOrigPhrases.count > 0) {
                 promptType = 0
@@ -286,7 +292,11 @@ class Translate: UIViewController {
     }
     
     func newWordPairer() {
-        var random1 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
+        numCorrectTapPairs = 0
+        checkButton.isEnabled = false
+        checkButton.backgroundColor = UIColor.lightGray
+        checkButton.setTitle("Next", for: .normal)
+        let random1 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
         var random2 = random1
         var random3 = random1
         var random4 = random1
@@ -299,9 +309,12 @@ class Translate: UIViewController {
         while(random4 == random1 || random4 == random2 || random4 == random3) {
             random4 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
         }
-        var wordsOrig = [languagesOrigWords[currLanguage][random1], languagesOrigWords[currLanguage][random2], languagesOrigWords[currLanguage][random3], languagesOrigWords[currLanguage][random4]]
-        var wordsTranslated = [languagesTranslatedWords[currLanguage][random1], languagesTranslatedWords[currLanguage][random2], languagesTranslatedWords[currLanguage][random3], languagesTranslatedWords[currLanguage][random4]]
+        var wordsOrig = [currSlangOrigWords[random1], currSlangOrigWords[random2], currSlangOrigWords[random3], currSlangOrigWords[random4]]
+        var wordsTranslated = [currSlangTranslatedWords[random1], currSlangTranslatedWords[random2], currSlangTranslatedWords[random3], currSlangTranslatedWords[random4]]
+        indexesOfWordsTapPairs = wordsOrig
         textToTranslate.text = "Tap the pairs"
+        wordsOrig.shuffle()
+        wordsTranslated.shuffle()
         for button in wordsToClick {
             button.removeFromSuperview()
         }
@@ -324,7 +337,7 @@ class Translate: UIViewController {
             if(n < 4) {
                 wordsToClick.last!.setTitle(wordsOrig[n], for: .normal)
             } else {
-                wordsToClick.last!.setTitle(wordsTranslated[n], for: .normal)
+                wordsToClick.last!.setTitle(wordsTranslated[n-4], for: .normal)
             }
             wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
             wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
@@ -349,7 +362,111 @@ class Translate: UIViewController {
     }
     
     @objc func buttonClickedWords(sender: UIButton!) {
-        //DO THIS, when a word is tapped highlight it, see what index # it is 
+        //if currently no button is selected
+        if(currWordSelected == nil) {
+            currWordSelected = sender
+            //if newly chosen button is in origLanguage (top)
+            if(sender.frame.origin.y == 500) {
+                currWordSelectedOrig = true
+                //if newly chosen button is in translatedLanguage (bottom)
+            } else {
+                currWordSelectedOrig = false
+            }
+            sender.backgroundColor = UIColor(red: 0.5, green: 0.778, blue: 0.778, alpha: 1)
+        //if there is already a button selected
+        } else {
+            //if the previously selected button is origLanguage
+            if(currWordSelectedOrig == true) {
+                //if previously and newly selected buttons are both on top, just change currSelected to new
+                if(sender.frame.origin.y == 500) {
+                    currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                    sender.backgroundColor = UIColor(red: 0.5, green: 0.778, blue: 0.778, alpha: 1)
+                    currWordSelected = sender
+                //check if it is the correct translation
+                } else {
+                    let ind = languagesOrigWords[currLanguage].firstIndex(of: currWordSelected.titleLabel!.text!)!
+                    //if translation is correct
+                    if(sender.titleLabel!.text! == languagesTranslatedWords[currLanguage][ind]) {
+                        UIView.animate(withDuration: 0.2, animations: {
+                            currWordSelected.backgroundColor = UIColor(red: 0.3, green: 1, blue: 0.478, alpha: 1)
+                            sender.backgroundColor = UIColor(red: 0.3, green: 1, blue: 0.478, alpha: 1)
+                        })
+                        sender.isEnabled = false
+                        currWordSelected.isEnabled = false
+                        currWordSelected = nil
+                        numCorrectTapPairs += 1
+                        for word in indexesOfWordsTapPairs {
+                            if(currSlangTranslatedWords.contains(sender.titleLabel!.text!)) {
+                                if(currSlangOrigWords[currSlangTranslatedWords.firstIndex(of: sender.titleLabel!.text!)!] == word) {
+                                    let ind2 = currSlangOrigWords.firstIndex(of: word)!
+                                    currSlangOrigWords.remove(at: ind2)
+                                    currSlangTranslatedWords.remove(at: ind2)
+                                }
+                            }
+                        }
+                        if(numCorrectTapPairs >= 4) {
+                            turnCheckToNext()
+                        }
+                        //if translation is incorrect
+                    } else {
+                        UIView.animate(withDuration: 0.2, animations: {
+                            currWordSelected.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
+                            sender.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
+                        })
+                        UIView.animate(withDuration: 0.4, delay: 0.2, animations: {
+                            currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                            sender.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                        })
+                        currWordSelected = nil
+                    }
+                }
+                //if previously selected button is translatedLanguage
+            } else {
+                //if previously and newly selected buttons are both on bottom, just change currSelected to new
+                if(sender.frame.origin.y == 600) {
+                    currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                    sender.backgroundColor = UIColor(red: 0.5, green: 0.778, blue: 0.778, alpha: 1)
+                    currWordSelected = sender
+                    //check translation
+                } else {
+                    let ind = languagesTranslatedWords[currLanguage].firstIndex(of: currWordSelected.titleLabel!.text!)!
+                    //if translation is correct
+                    if(sender.titleLabel!.text! == languagesOrigWords[currLanguage][ind]) {
+                        UIView.animate(withDuration: 0.2, animations: {
+                            currWordSelected.backgroundColor = UIColor(red: 0.3, green: 1, blue: 0.478, alpha: 1)
+                            sender.backgroundColor = UIColor(red: 0.3, green: 1, blue: 0.478, alpha: 1)
+                        })
+                        sender.isEnabled = false
+                        currWordSelected.isEnabled = false
+                        currWordSelected = nil
+                        numCorrectTapPairs += 1
+                        for word in indexesOfWordsTapPairs {
+                            if(sender.titleLabel!.text! == word) {
+                                if(currSlangOrigWords.contains(word)) {
+                                    let ind2 = currSlangOrigWords.firstIndex(of: word)!
+                                    currSlangOrigWords.remove(at: ind2)
+                                    currSlangTranslatedWords.remove(at: ind2)
+                                }
+                            }
+                        }
+                        if(numCorrectTapPairs >= 4) {
+                            turnCheckToNext()
+                        }
+                        //if translation is incorrect
+                    } else {
+                        UIView.animate(withDuration: 0.2, animations: {
+                            currWordSelected.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
+                            sender.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
+                        })
+                        UIView.animate(withDuration: 0.4, delay: 0.2, animations: {
+                            currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                            sender.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                        })
+                        currWordSelected = nil
+                    }
+                }
+            }
+        }
     }
     
     @objc func buttonClickedPhrases(sender: UIButton!) {
@@ -523,6 +640,31 @@ class Translate: UIViewController {
         self.present(chooseLangScreen, animated: true, completion: nil)
     }
     
+    func correct() {
+        print(Float(currSlangOrigWords.count) / 4)
+        var promptsLeft = Float(currSlangOrigPhrases.count) + Float(currSlangOrigWords.count) / 4
+        UIView.animate(withDuration: 0.2, animations: {
+            self.correctPopup.frame.origin.y = 730
+            self.progressBar.setProgress(Float(Float(initialAmountToLearn) - promptsLeft)/Float(initialAmountToLearn), animated: true)
+        })
+    }
+    
+    func incorrect() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.incorrectPopup.frame.origin.y = 730
+        })
+    }
+    
+    func turnCheckToNext() {
+        if(checkButton.isEnabled == false) {
+            checkButton.isEnabled = true
+        }
+        checkButton.backgroundColor = UIColor(red: 0.419, green: 0.73, blue: 0.925, alpha: 1)
+        readyForNext = true
+        checkButton.setTitle("Next", for: .normal)
+        correct()
+    }
+    
     @IBAction func checkButtonClicked(sender: UIButton!) {
         if(readyForNext == false) {
             let finalTranslation = userTranslation.joined(separator: " ")
@@ -531,12 +673,7 @@ class Translate: UIViewController {
                     print("Correct!")
                     currSlangOrigPhrases.remove(at: currString)
                     currSlangTranslatedPhrases.remove(at: currString)
-                    readyForNext = true
-                    checkButton.setTitle("Next", for: .normal)
-                    UIView.animate(withDuration: 0.2, animations: {
-                        self.correctPopup.frame.origin.y = 730
-                        self.progressBar.setProgress(Float(initialAmountToLearn - currSlangOrigPhrases.count)/Float(initialAmountToLearn), animated: true)
-                    })
+                    turnCheckToNext()
                     for word in wordsToClick {
                         word.isEnabled = false
                     }
@@ -544,9 +681,7 @@ class Translate: UIViewController {
                     print("Given: " + finalTranslation)
                     print("Expected: " + currSlangTranslatedPhrases[currString])
                     print("Incorrect!")
-                    UIView.animate(withDuration: 0.2, animations: {
-                        self.incorrectPopup.frame.origin.y = 730
-                    })
+                    incorrect()
                     readyForNext = true
                     checkButton.setTitle("Next", for: .normal)
                 }
@@ -557,12 +692,7 @@ class Translate: UIViewController {
                     currSlangOrigPhrases.remove(at: currString)
                     currSlangTranslatedPhrases.remove(at: currString)
                     hearButton.isEnabled = true
-                    readyForNext = true
-                    checkButton.setTitle("Next", for: .normal)
-                    UIView.animate(withDuration: 0.2, animations: {
-                        self.correctPopup.frame.origin.y = 730
-                        self.progressBar.setProgress(Float(initialAmountToLearn - currSlangOrigPhrases.count)/Float(initialAmountToLearn), animated: true)
-                    })
+                    turnCheckToNext()
                     for word in wordsToClick {
                         word.isEnabled = false
                     }
@@ -578,9 +708,11 @@ class Translate: UIViewController {
                 }
             }
         } else {
-            if(currSlangOrigPhrases.count > 0) {
+            if(currSlangOrigPhrases.count > 0 && (promptType == 0 || promptType == 1)) {
                 //remove curr audioclip here rather than in checkButtonClicked like other arrays because user may still press the Hear button after the translation is checked
                 currAudioClipsPhrases.remove(at: currString)
+            }
+            if(currSlangOrigPhrases.count + currSlangOrigWords.count > 0) {
                 newPrompt()
             } else {
                 //THIS HAPPENS WHEN IT IS FINISHED, SHOULD GO BACK TO PREVIOUS PAGE
