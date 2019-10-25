@@ -13,6 +13,8 @@
 import UIKit
 import AVFoundation
 
+var flagNames = ["argentinasmall", "australiasmall", "brazilsmall", "italysmall"]
+
 var randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
 var RandomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
 var randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
@@ -61,6 +63,8 @@ var userTranslation = [String]()
 var wordsToTranslate = [String]()
 var wordsToClick = [UIButton]()
 
+var wordsToClickFrame = [UIButton]()
+
 var buttonsAtBottom = [UIButton]()
 var buttonsAtTop = [UIButton]()
 
@@ -76,6 +80,8 @@ var indexesOfWordsTapPairs = [String]()
 
 //0 means Orig to Translated (orig), 1 means Translated to Orig
 var promptType = 0
+
+var lastCorrect = false
 
 class Translate: UIViewController {
     var currLanguage = 0
@@ -96,6 +102,7 @@ class Translate: UIViewController {
     @IBOutlet var correctPopup : UIView!
     @IBOutlet var incorrectPopup : UIView!
     @IBOutlet var progressBar : UIProgressView!
+    @IBOutlet var flag : UIImageView!
     
     var player = AVAudioPlayer()
     
@@ -144,6 +151,7 @@ class Translate: UIViewController {
             currAudioClipsWords.append(clip)
         }
         initialAmountToLearn = currSlangOrigPhrases.count + currSlangOrigWords.count / 4
+        flag.image = UIImage(named: flagNames[currLanguage])
         newPrompt()
     }
     
@@ -172,9 +180,13 @@ class Translate: UIViewController {
             }
         }
         if(promptToChooseNum == 2) {
-            promptType = 2
-            newWordPairer()
-            return
+            if(currSlangOrigWords.count >= 4) {
+                promptType = 2
+                newWordPairer()
+                return
+            } else {
+                newPrompt()
+            }
         }
     }
     
@@ -184,9 +196,13 @@ class Translate: UIViewController {
         for button in wordsToClick {
             button.removeFromSuperview()
         }
+        for button in wordsToClickFrame {
+            button.removeFromSuperview()
+        }
         userTranslation.removeAll()
         wordsToTranslate.removeAll()
         wordsToClick.removeAll()
+        wordsToClickFrame.removeAll()
         buttonsAtTop.removeAll()
         buttonsAtBottom.removeAll()
         wordsToTranslate = currSlangTranslatedPhrases[currString].components(separatedBy: " ")
@@ -200,13 +216,17 @@ class Translate: UIViewController {
         wordsToTranslate.shuffle()
         for n in 0 ..< wordsToTranslate.count {
             if(n == 0) {
-                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 500, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 550, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: 50, y: 550, width: 0, height: 0)))
             } else if(n<4) {
-                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 500, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 550, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 550, width: 0, height: 0)))
             } else if(n==4){
-                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 600, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 600, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: 50, y: 600, width: 0, height: 0)))
             } else {
                 wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
             }
             wordsToClick.last!.setTitle(wordsToTranslate[n], for: .normal)
             wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
@@ -221,12 +241,48 @@ class Translate: UIViewController {
             wordsToClick.last!.addTarget(self, action: #selector(buttonClickedPhrases), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
             wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            
+            //setting frame
+            wordsToClickFrame.last!.isEnabled = false
+            wordsToClickFrame.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.frame.width, height: wordsToClick.last!.frame.height)
+            wordsToClickFrame.last!.backgroundColor = UIColor.lightGray
+            wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClickFrame.last!.layer.shadowColor = UIColor.darkGray.cgColor
+            wordsToClickFrame.last!.layer.shadowRadius = 4
+            wordsToClickFrame.last!.layer.shadowOpacity = 0.5
+            wordsToClickFrame.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
+            wordsToClickFrame.last!.tag = n
 //            for word in wordsToClick {
 //                buttonsAtBottom.append(word)
 //            }
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
+            self.view.addSubview(wordsToClickFrame.last!)
+            view.sendSubviewToBack(wordsToClickFrame.last!)
         }
+        //distance top row has to move
+        let distanceToRightTop = UIScreen.main.bounds.width - (wordsToClick[3].frame.origin.x + wordsToClick[3].frame.width)
+        let distanceToMoveTop = (distanceToRightTop - 50) / 2
+        
+        //distance bottom row has to move
+        let distanceToRightBottom = UIScreen.main.bounds.width - (wordsToClick[7].frame.origin.x + wordsToClick[7].frame.width)
+        let distanceToMoveBottom = (distanceToRightBottom - 50) / 2
+        
+        for button in wordsToClick {
+            if(button.tag < 4) {
+                button.frame.origin.x += distanceToMoveTop
+            } else {
+                button.frame.origin.x += distanceToMoveBottom
+            }
+        }
+        for button in wordsToClickFrame {
+            if(button.tag < 4) {
+                button.frame.origin.x += distanceToMoveTop
+            } else {
+                button.frame.origin.x += distanceToMoveBottom
+            }
+        }
+        
         textToTranslate.sizeToFit()
         textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
@@ -241,9 +297,13 @@ class Translate: UIViewController {
         for button in wordsToClick {
             button.removeFromSuperview()
         }
+        for button in wordsToClickFrame {
+            button.removeFromSuperview()
+        }
         userTranslation.removeAll()
         wordsToTranslate.removeAll()
         wordsToClick.removeAll()
+        wordsToClickFrame.removeAll()
         buttonsAtTop.removeAll()
         buttonsAtBottom.removeAll()
         wordsToTranslate = currSlangOrigPhrases[currString].components(separatedBy: " ")
@@ -257,13 +317,17 @@ class Translate: UIViewController {
         wordsToTranslate.shuffle()
         for n in 0 ..< wordsToTranslate.count {
             if(n == 0) {
-                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 500, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 550, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: 50, y: 550, width: 0, height: 0)))
             } else if(n<4) {
-                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 500, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 550, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 550, width: 0, height: 0)))
             } else if(n==4){
-                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 600, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 600, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: 50, y: 600, width: 0, height: 0)))
             } else {
                 wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
+                wordsToClickFrame.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
             }
             wordsToClick.last!.setTitle(wordsToTranslate[n], for: .normal)
             wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
@@ -278,12 +342,50 @@ class Translate: UIViewController {
             wordsToClick.last!.addTarget(self, action: #selector(buttonClickedPhrases), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
             wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            
+            
+            //setting frame
+            wordsToClickFrame.last!.isEnabled = false
+            wordsToClickFrame.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.frame.width, height: wordsToClick.last!.frame.height)
+            wordsToClickFrame.last!.backgroundColor = UIColor.lightGray
+            wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClickFrame.last!.layer.shadowColor = UIColor.darkGray.cgColor
+            wordsToClickFrame.last!.layer.shadowRadius = 4
+            wordsToClickFrame.last!.layer.shadowOpacity = 0.5
+            wordsToClickFrame.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
+            wordsToClickFrame.last!.tag = n
             //            for word in wordsToClick {
             //                buttonsAtBottom.append(word)
             //            }
             buttonsAtBottom = wordsToClick
             self.view.addSubview(wordsToClick.last!)
+            self.view.addSubview(wordsToClickFrame.last!)
+            view.sendSubviewToBack(wordsToClickFrame.last!)
         }
+        
+        //distance top row has to move
+        let distanceToRightTop = UIScreen.main.bounds.width - (wordsToClick[3].frame.origin.x + wordsToClick[3].frame.width)
+        let distanceToMoveTop = (distanceToRightTop - 50) / 2
+        
+        //distance bottom row has to move
+        let distanceToRightBottom = UIScreen.main.bounds.width - (wordsToClick[7].frame.origin.x + wordsToClick[7].frame.width)
+        let distanceToMoveBottom = (distanceToRightBottom - 50) / 2
+        
+        for button in wordsToClick {
+            if(button.tag < 4) {
+                button.frame.origin.x += distanceToMoveTop
+            } else {
+                button.frame.origin.x += distanceToMoveBottom
+            }
+        }
+        for button in wordsToClickFrame {
+            if(button.tag < 4) {
+                button.frame.origin.x += distanceToMoveTop
+            } else {
+                button.frame.origin.x += distanceToMoveBottom
+            }
+        }
+        
         textToTranslate.sizeToFit()
         textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
@@ -318,6 +420,9 @@ class Translate: UIViewController {
         for button in wordsToClick {
             button.removeFromSuperview()
         }
+        for button in wordsToClickFrame {
+            button.removeFromSuperview()
+        }
         userTranslation.removeAll()
         wordsToTranslate.removeAll()
         wordsToClick.removeAll()
@@ -326,11 +431,11 @@ class Translate: UIViewController {
         //wordsToTranslate = currSlangTranslatedPhrases[currString].components(separatedBy: " ")
         for n in 0 ..< 8 {
             if(n == 0) {
-                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 500, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 550, width: 0, height: 0)))
             } else if(n<4) {
-                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 500, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 550, width: 0, height: 0)))
             } else if(n==4){
-                wordsToClick.append(UIButton(frame: CGRect(x: 100, y: 600, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 600, width: 0, height: 0)))
             } else {
                 wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
             }
@@ -356,6 +461,23 @@ class Translate: UIViewController {
             //            }
             self.view.addSubview(wordsToClick.last!)
         }
+        
+        //distance top row has to move
+        let distanceToRightTop = UIScreen.main.bounds.width - (wordsToClick[3].frame.origin.x + wordsToClick[3].frame.width)
+        let distanceToMoveTop = (distanceToRightTop - 50) / 2
+        
+        //distance bottom row has to move
+        let distanceToRightBottom = UIScreen.main.bounds.width - (wordsToClick[7].frame.origin.x + wordsToClick[7].frame.width)
+        let distanceToMoveBottom = (distanceToRightBottom - 50) / 2
+        
+        for button in wordsToClick {
+            if(button.tag < 4) {
+                button.frame.origin.x += distanceToMoveTop
+            } else {
+                button.frame.origin.x += distanceToMoveBottom
+            }
+        }
+        
         textToTranslate.sizeToFit()
         textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
@@ -366,7 +488,7 @@ class Translate: UIViewController {
         if(currWordSelected == nil) {
             currWordSelected = sender
             //if newly chosen button is in origLanguage (top)
-            if(sender.frame.origin.y == 500) {
+            if(sender.frame.origin.y == 550) {
                 currWordSelectedOrig = true
                 //if newly chosen button is in translatedLanguage (bottom)
             } else {
@@ -378,7 +500,7 @@ class Translate: UIViewController {
             //if the previously selected button is origLanguage
             if(currWordSelectedOrig == true) {
                 //if previously and newly selected buttons are both on top, just change currSelected to new
-                if(sender.frame.origin.y == 500) {
+                if(sender.frame.origin.y == 550) {
                     currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
                     sender.backgroundColor = UIColor(red: 0.5, green: 0.778, blue: 0.778, alpha: 1)
                     currWordSelected = sender
@@ -470,8 +592,10 @@ class Translate: UIViewController {
     }
     
     @objc func buttonClickedPhrases(sender: UIButton!) {
-        if(sender.frame.origin.y >= 500) {
+        if(sender.frame.origin.y >= 550) {
             let ind = buttonsAtBottom.firstIndex(of: sender)!
+            buttonsAtBottom.remove(at: ind)
+            /*
             if(ind < buttonsAtBottom.count - 1) {
                 //buttonsAtBottom[ind+1].frame.origin.x = buttonsAtBottom[ind].frame.origin.x + buttonsAtBottom[ind].frame.width + 15
                 UIView.animate(withDuration: 0.2, animations: {
@@ -485,16 +609,16 @@ class Translate: UIViewController {
                 if(n == 3) {
                     var dest = CGPoint(x: 0, y: 0)
 //                    buttonsAtBottom[3].frame.origin.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
-//                    buttonsAtBottom[3].frame.origin.y = 500
+//                    buttonsAtBottom[3].frame.origin.y = 550
                     dest.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
-                    dest.y = 500
+                    dest.y = 550
                     UIView.animate(withDuration: 0.2, animations: {
                         buttonsAtBottom[3].frame = CGRect(x: dest.x, y: dest.y, width: buttonsAtBottom[3].frame.size.width, height: buttonsAtBottom[3].frame.size.height)
                     })
                 }
                 if(n == 4) {
                     UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[4].frame = CGRect(x: 100, y: buttonsAtBottom[4].frame.origin.y, width: buttonsAtBottom[4].frame.size.width, height: buttonsAtBottom[4].frame.size.height)
+                        buttonsAtBottom[4].frame = CGRect(x: 50, y: buttonsAtBottom[4].frame.origin.y, width: buttonsAtBottom[4].frame.size.width, height: buttonsAtBottom[4].frame.size.height)
                     })
                 } else if(n == 5) {
                     //buttonsAtBottom[4].frame.origin.x = 100
@@ -520,15 +644,16 @@ class Translate: UIViewController {
                 } else {
                     //buttonsAtBottom[n].frame.origin.x = 100
                     UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[n].frame = CGRect(x: 100, y: buttonsAtBottom[n].frame.origin.y, width: buttonsAtBottom[n].frame.size.width, height: buttonsAtBottom[n].frame.size.height)
+                        buttonsAtBottom[n].frame = CGRect(x: 50, y: buttonsAtBottom[n].frame.origin.y, width: buttonsAtBottom[n].frame.size.width, height: buttonsAtBottom[n].frame.size.height)
                     })
                 }
             }
+            */
             //buttonsAtBottom.remove(at: buttonsAtBottom.firstIndex(of: sender)!)
             var dest = CGPoint(x: 0, y: 0)
             if(userTranslation.count == 0 || buttonsAtTop.count == 4) {
                 //sender.frame.origin.x = 100
-                dest.x = 100
+                dest.x = 50
             } else {
                 //sender.frame.origin.x = buttonsAtTop.last!.frame.origin.x + buttonsAtTop.last!.frame.width + 15
                 dest.x = buttonsAtTop.last!.frame.origin.x + buttonsAtTop.last!.frame.width + 15
@@ -538,7 +663,7 @@ class Translate: UIViewController {
                 dest.y = 300
             } else {
                 //sender.frame.origin.y = 400
-                dest.y = 400
+                dest.y = 350
             }
             UIView.animate(withDuration: 0.2, animations: {
                 sender.frame = CGRect(x: dest.x, y: dest.y, width: sender.frame.size.width, height: sender.frame.size.height)
@@ -547,6 +672,8 @@ class Translate: UIViewController {
             userTranslation.append(sender.titleLabel!.text!)
         } else if(sender.frame.origin.y <= 400) {
             let ind = buttonsAtTop.firstIndex(of: sender)!
+            buttonsAtTop.remove(at: ind)
+            /*
             if(ind < buttonsAtTop.count - 1) {
                 //buttonsAtTop[ind+1].frame.origin.x = buttonsAtTop[ind].frame.origin.x + buttonsAtTop[ind].frame.width + 15
                 UIView.animate(withDuration: 0.2, animations: {
@@ -570,7 +697,7 @@ class Translate: UIViewController {
                 if(n == 4) {
                     //buttonsAtTop[4].frame.origin.x = 100
                     UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[4].frame = CGRect(x: 100, y: buttonsAtTop[4].frame.origin.y, width: buttonsAtTop[4].frame.size.width, height: buttonsAtTop[4].frame.size.height)
+                        buttonsAtTop[4].frame = CGRect(x: 50, y: buttonsAtTop[4].frame.origin.y, width: buttonsAtTop[4].frame.size.width, height: buttonsAtTop[4].frame.size.height)
                     })
                 } else if(n == 5) {
                     //buttonsAtBottom[4].frame.origin.x = 100
@@ -594,26 +721,26 @@ class Translate: UIViewController {
                 } else {
                     //buttonsAtTop[n].frame.origin.x = 100
                     UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[n].frame = CGRect(x: 100, y: buttonsAtTop[n].frame.origin.y, width: buttonsAtTop[n].frame.size.width, height: buttonsAtTop[n].frame.size.height)
+                        buttonsAtTop[n].frame = CGRect(x: 50, y: buttonsAtTop[n].frame.origin.y, width: buttonsAtTop[n].frame.size.width, height: buttonsAtTop[n].frame.size.height)
                     })
                 }
-            }
+            } */
             //buttonsAtTop.remove(at: buttonsAtTop.firstIndex(of: sender)!)
-            var dest = CGPoint(x: 0, y: 0)
-            if(buttonsAtBottom.count == 0 || buttonsAtBottom.count == 4) {
-                //sender.frame.origin.x = 100
-                dest.x = 100
-            } else {
-                //sender.frame.origin.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
-                dest.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
-            }
-            if(buttonsAtBottom.count < 4) {
-                //sender.frame.origin.y = 500
-                dest.y = 500
-            } else {
-                //sender.frame.origin.y = 600
-                dest.y = 600
-            }
+            let dest = CGPoint(x: wordsToClickFrame[sender.tag].frame.origin.x, y: wordsToClickFrame[sender.tag].frame.origin.y)
+//            if(buttonsAtBottom.count == 0 || buttonsAtBottom.count == 4) {
+//                //sender.frame.origin.x = 100
+//                dest.x = 50
+//            } else {
+//                //sender.frame.origin.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
+//                dest.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
+//            }
+//            if(buttonsAtBottom.count < 4) {
+//                //sender.frame.origin.y = 550
+//                dest.y = 550
+//            } else {
+//                //sender.frame.origin.y = 600
+//                dest.y = 600
+//            }
             UIView.animate(withDuration: 0.2, animations: {
                 sender.frame = CGRect(x: dest.x, y: dest.y, width: sender.frame.size.width, height: sender.frame.size.height)
             })
@@ -621,7 +748,7 @@ class Translate: UIViewController {
 //            var rightMostIndex = 0
 //            var rightMostXValue = 0
 //            for n in 0 ..< wordsToClick.count {
-//                if(wordsToClick[n].frame.origin.y == 500 && rightMostXValue < Int(wordsToClick[n].frame.origin.x)) {
+//                if(wordsToClick[n].frame.origin.y == 550 && rightMostXValue < Int(wordsToClick[n].frame.origin.x)) {
 //                    rightMostXValue = Int(wordsToClick[n].frame.origin.x)
 //                    rightMostIndex = n
 //                }
@@ -641,8 +768,8 @@ class Translate: UIViewController {
     }
     
     func correct() {
-        print(Float(currSlangOrigWords.count) / 4)
-        var promptsLeft = Float(currSlangOrigPhrases.count) + Float(currSlangOrigWords.count) / 4
+        lastCorrect = true
+        let promptsLeft = Float(currSlangOrigPhrases.count) + Float(currSlangOrigWords.count) / 4
         UIView.animate(withDuration: 0.2, animations: {
             self.correctPopup.frame.origin.y = 730
             self.progressBar.setProgress(Float(Float(initialAmountToLearn) - promptsLeft)/Float(initialAmountToLearn), animated: true)
@@ -650,6 +777,7 @@ class Translate: UIViewController {
     }
     
     func incorrect() {
+        lastCorrect = false
         UIView.animate(withDuration: 0.2, animations: {
             self.incorrectPopup.frame.origin.y = 730
         })
@@ -703,12 +831,13 @@ class Translate: UIViewController {
                     UIView.animate(withDuration: 0.2, animations: {
                         self.incorrectPopup.frame.origin.y = 730
                     })
+                    incorrect()
                     readyForNext = true
                     checkButton.setTitle("Next", for: .normal)
                 }
             }
         } else {
-            if(currSlangOrigPhrases.count > 0 && (promptType == 0 || promptType == 1)) {
+            if(lastCorrect && currSlangOrigPhrases.count > 0 && (promptType == 0 || promptType == 1)) {
                 //remove curr audioclip here rather than in checkButtonClicked like other arrays because user may still press the Hear button after the translation is checked
                 currAudioClipsPhrases.remove(at: currString)
             }
