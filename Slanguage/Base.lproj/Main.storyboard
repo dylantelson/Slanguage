@@ -240,25 +240,17 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.7164345383644104" green="0.84606140851974487" blue="0.94512754678726196" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Text to Translate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-bd-6RJ">
-                                <rect key="frame" x="137" y="220" width="140" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Text to Translate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-bd-6RJ">
+                                <rect key="frame" x="60" y="220" width="140" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TRANSLATE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRG-hR-YBJ">
-                                <rect key="frame" x="47" y="192" width="320" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzR-Xp-qWe">
+                                <rect key="frame" x="20" y="214" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzR-Xp-qWe">
-                                <rect key="frame" x="20" y="215" width="37" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Hear"/>
+                                <state key="normal" image="playwhite"/>
                                 <connections>
                                     <action selector="hearButtonClickedWithSender:" destination="aMj-cN-vxT" eventType="touchUpInside" id="dXb-AV-YcS"/>
                                 </connections>
@@ -307,6 +299,23 @@
                                     <action selector="checkButtonClickedWithSender:" destination="aMj-cN-vxT" eventType="touchUpInside" id="8fK-TM-78Q"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ru2-Ic-kOg">
+                                <rect key="frame" x="20" y="332" width="374" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ad7-tF-peb" userLabel="Lines2">
+                                <rect key="frame" x="20" y="382" width="374" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TRANSLATE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRG-hR-YBJ">
+                                <rect key="frame" x="47" y="164" width="320" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Rlh-hj-khW"/>
@@ -318,6 +327,8 @@
                         <outlet property="flag" destination="krv-NO-cbt" id="MPp-WU-Tqn"/>
                         <outlet property="hearButton" destination="wzR-Xp-qWe" id="xVu-eF-PU4"/>
                         <outlet property="incorrectPopup" destination="NM9-Ef-mEe" id="QXw-la-iDp"/>
+                        <outlet property="lines1" destination="Ru2-Ic-kOg" id="YBM-Ga-WHr"/>
+                        <outlet property="lines2" destination="ad7-tF-peb" id="jpV-sJ-2fe"/>
                         <outlet property="progressBar" destination="AdD-7G-ECX" id="yPC-7z-TO6"/>
                         <outlet property="textToTranslate" destination="JJY-bd-6RJ" id="BBx-Bo-iGR"/>
                     </connections>
@@ -333,5 +344,6 @@
         <image name="australia" width="128" height="128"/>
         <image name="brazil" width="128" height="128"/>
         <image name="italy" width="128" height="128"/>
+        <image name="playwhite" width="48" height="48"/>
     </resources>
 </document>

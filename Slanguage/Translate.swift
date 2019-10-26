@@ -1,13 +1,10 @@
 /* MAIN TODOLIST:
- 1) Fix up the way buttons work (they should not go off-screen if too long like currently, and should be able to be dragged)
- 2) Add more languages
- 3) Design the app so it looks decent (maybe get Jacob in on it). This includes changing the look of it, adding icons for the tabview, hear button etc.
- 4) Add more phrases and slang of course
- 5) Add more types of minigames- look at other language learning apps and see what they do
- 6) Add points system and leaderboard
- 7) Make it so when the user is wrong, it says Incorrect! instead of correct and maybe add a lives system or something.
- 8) Add polish to when you get it right, wrong, etc.
- 9) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+ 1) Add points system and leaderboard
+ 2) Design the app so it looks decent (maybe get Jacob in on it). This includes changing the look of it, adding icons for the tabview, hear button etc.
+ 3) Add more phrases and slang of course
+ 4) Add more types of minigames- look at other language learning apps and see what they do
+ 5) Add more languages
+ 6) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
 */
 
 import UIKit
@@ -103,6 +100,8 @@ class Translate: UIViewController {
     @IBOutlet var incorrectPopup : UIView!
     @IBOutlet var progressBar : UIProgressView!
     @IBOutlet var flag : UIImageView!
+    @IBOutlet var lines1 : UIView!
+    @IBOutlet var lines2 : UIView!
     
     var player = AVAudioPlayer()
     
@@ -111,15 +110,28 @@ class Translate: UIViewController {
         view.sendSubviewToBack(correctPopup)
         view.sendSubviewToBack(incorrectPopup)
         checkButton.backgroundColor = UIColor(red: 0.419, green: 0.73, blue: 0.925, alpha: 1)
-        checkButton.layer.cornerRadius = checkButton.frame.height/2
+        checkButton.layer.cornerRadius = checkButton.frame.height/3
         checkButton.layer.shadowColor = UIColor.darkGray.cgColor
-        checkButton.layer.shadowRadius = 4
+        checkButton.layer.shadowRadius = 1
         checkButton.layer.shadowOpacity = 0.5
         checkButton.layer.shadowOffset = CGSize(width: 0, height: 0)
         checkButton.titleLabel!.textAlignment = .center
         checkButton.setTitleColor(UIColor.white, for: .normal)
+        
+        hearButton.backgroundColor = UIColor(red: 0.714, green: 0.847, blue: 0.945, alpha: 1)
+//        hearButton.layer.borderWidth = 1.0
+//        hearButton.layer.borderColor = UIColor.lightGray.cgColor
+        hearButton.layer.cornerRadius = hearButton.frame.height/3
+        hearButton.layer.shadowColor = UIColor.blue.cgColor
+        hearButton.layer.shadowRadius = 1
+        hearButton.layer.shadowOpacity = 0.5
+        hearButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        hearButton.titleLabel!.textAlignment = .center
+        
         //learned to use CGAffineTransform from https://stackoverflow.com/questions/31259993/change-height-of-uiprogressview-in-swift/31260320
         progressBar.transform = CGAffineTransform(scaleX: 1, y: 3)
+        lines1.removeFromSuperview()
+        lines2.removeFromSuperview()
         startLearning()
         // Do any additional setup after loading the view.
     }
@@ -159,6 +171,9 @@ class Translate: UIViewController {
         correctPopup.frame.origin.y = 900
         incorrectPopup.frame.origin.y = 900
         readyForNext = false
+        lines1.removeFromSuperview()
+        lines2.removeFromSuperview()
+        hearButton.removeFromSuperview()
         checkButton.setTitle("Check", for: .normal)
         var promptToChooseNum = Int.random(in: 0 ... 2)
         if(promptToChooseNum == 0) {
@@ -191,6 +206,9 @@ class Translate: UIViewController {
     }
     
     func newPhrase() {
+        self.view.addSubview(lines1)
+        self.view.addSubview(lines2)
+        self.view.addSubview(hearButton)
         currString = Int.random(in: 0 ..< currSlangOrigPhrases.count)
         textToTranslate.text = currSlangOrigPhrases[currString]
         for button in wordsToClick {
@@ -229,26 +247,29 @@ class Translate: UIViewController {
                 wordsToClickFrame.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
             }
             wordsToClick.last!.setTitle(wordsToTranslate[n], for: .normal)
-            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
-            wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
-            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 16, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 8)
+//            wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+            wordsToClick.last!.backgroundColor = UIColor.white
+            wordsToClick.last!.layer.borderWidth = 1.0
+            wordsToClick.last!.layer.borderColor = UIColor.lightGray.cgColor
+            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
             wordsToClick.last!.layer.shadowColor = UIColor.darkGray.cgColor
-            wordsToClick.last!.layer.shadowRadius = 4
+            wordsToClick.last!.layer.shadowRadius = 1
             wordsToClick.last!.layer.shadowOpacity = 0.5
             wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClick.last!.titleLabel!.textAlignment = .center
             wordsToClick.last!.tag = n
             wordsToClick.last!.addTarget(self, action: #selector(buttonClickedPhrases), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
-            wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            wordsToClick.last!.setTitleColor(UIColor.black, for: .normal)
             
             //setting frame
             wordsToClickFrame.last!.isEnabled = false
             wordsToClickFrame.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.frame.width, height: wordsToClick.last!.frame.height)
             wordsToClickFrame.last!.backgroundColor = UIColor.lightGray
-            wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
             wordsToClickFrame.last!.layer.shadowColor = UIColor.darkGray.cgColor
-            wordsToClickFrame.last!.layer.shadowRadius = 4
+            wordsToClickFrame.last!.layer.shadowRadius = 1
             wordsToClickFrame.last!.layer.shadowOpacity = 0.5
             wordsToClickFrame.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClickFrame.last!.tag = n
@@ -284,7 +305,7 @@ class Translate: UIViewController {
         }
         
         textToTranslate.sizeToFit()
-        textToTranslate.center = view.center
+        //textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
         //hearButton.frame.origin.x = textToTranslate.frame.origin.x - 60
         hearButton.isEnabled = true
@@ -292,6 +313,9 @@ class Translate: UIViewController {
     }
     
     func newPhraseReversed() {
+        self.view.addSubview(lines1)
+        self.view.addSubview(lines2)
+        hearButton.removeFromSuperview()
         currString = Int.random(in: 0 ..< currSlangTranslatedPhrases.count)
         textToTranslate.text = currSlangTranslatedPhrases[currString]
         for button in wordsToClick {
@@ -330,27 +354,30 @@ class Translate: UIViewController {
                 wordsToClickFrame.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
             }
             wordsToClick.last!.setTitle(wordsToTranslate[n], for: .normal)
-            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
-            wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
-            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
-            wordsToClick.last!.layer.shadowColor = UIColor.darkGray.cgColor
-            wordsToClick.last!.layer.shadowRadius = 4
+            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 16, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 8)
+            //wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+            wordsToClick.last!.backgroundColor = UIColor.white
+            wordsToClick.last!.layer.borderWidth = 1.0
+            wordsToClick.last!.layer.borderColor = UIColor.lightGray.cgColor
+            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
+            wordsToClick.last!.layer.shadowColor = UIColor.lightGray.cgColor
+            wordsToClick.last!.layer.shadowRadius = 1
             wordsToClick.last!.layer.shadowOpacity = 0.5
             wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClick.last!.titleLabel!.textAlignment = .center
             wordsToClick.last!.tag = n
             wordsToClick.last!.addTarget(self, action: #selector(buttonClickedPhrases), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
-            wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            wordsToClick.last!.setTitleColor(UIColor.black, for: .normal)
             
             
             //setting frame
             wordsToClickFrame.last!.isEnabled = false
             wordsToClickFrame.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.frame.width, height: wordsToClick.last!.frame.height)
             wordsToClickFrame.last!.backgroundColor = UIColor.lightGray
-            wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
             wordsToClickFrame.last!.layer.shadowColor = UIColor.darkGray.cgColor
-            wordsToClickFrame.last!.layer.shadowRadius = 4
+            wordsToClickFrame.last!.layer.shadowRadius = 1
             wordsToClickFrame.last!.layer.shadowOpacity = 0.5
             wordsToClickFrame.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClickFrame.last!.tag = n
@@ -387,7 +414,7 @@ class Translate: UIViewController {
         }
         
         textToTranslate.sizeToFit()
-        textToTranslate.center = view.center
+        //textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
         hearButton.isEnabled = false
         //hearButton.frame.origin.x = textToTranslate.frame.origin.x - 60
@@ -431,31 +458,34 @@ class Translate: UIViewController {
         //wordsToTranslate = currSlangTranslatedPhrases[currString].components(separatedBy: " ")
         for n in 0 ..< 8 {
             if(n == 0) {
-                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 550, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 360, width: 0, height: 0)))
             } else if(n<4) {
-                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 550, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 360, width: 0, height: 0)))
             } else if(n==4){
-                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 600, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: 50, y: 410, width: 0, height: 0)))
             } else {
-                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 600, width: 0, height: 0)))
+                wordsToClick.append(UIButton(frame: CGRect(x: wordsToClick[n-1].frame.origin.x + wordsToClick[n-1].frame.width + 15, y: 410, width: 0, height: 0)))
             }
             if(n < 4) {
                 wordsToClick.last!.setTitle(wordsOrig[n], for: .normal)
             } else {
                 wordsToClick.last!.setTitle(wordsTranslated[n-4], for: .normal)
             }
-            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 10, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 4)
-            wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
-            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/2
+            wordsToClick.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.titleLabel!.intrinsicContentSize.width + 16, height: wordsToClick.last!.titleLabel!.intrinsicContentSize.height + 8)
+            //wordsToClick.last!.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+            wordsToClick.last!.backgroundColor = UIColor.white
+            wordsToClick.last!.layer.borderWidth = 1.0
+            wordsToClick.last!.layer.borderColor = UIColor.lightGray.cgColor
+            wordsToClick.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
             wordsToClick.last!.layer.shadowColor = UIColor.darkGray.cgColor
-            wordsToClick.last!.layer.shadowRadius = 4
+            wordsToClick.last!.layer.shadowRadius = 1
             wordsToClick.last!.layer.shadowOpacity = 0.5
             wordsToClick.last!.layer.shadowOffset = CGSize(width: 0, height: 0)
             wordsToClick.last!.titleLabel!.textAlignment = .center
             wordsToClick.last!.tag = n
             wordsToClick.last!.addTarget(self, action: #selector(buttonClickedWords), for: .touchUpInside)
             //wordsToClick.last!.titleLabel!.font = UIFont(name: "Helvetica", size: 19.0)
-            wordsToClick.last!.setTitleColor(UIColor.white, for: .normal)
+            wordsToClick.last!.setTitleColor(UIColor.black, for: .normal)
             //            for word in wordsToClick {
             //                buttonsAtBottom.append(word)
             //            }
@@ -479,7 +509,7 @@ class Translate: UIViewController {
         }
         
         textToTranslate.sizeToFit()
-        textToTranslate.center = view.center
+        //textToTranslate.center = view.center
         textToTranslate.frame.origin.y = 220
     }
     
@@ -488,7 +518,7 @@ class Translate: UIViewController {
         if(currWordSelected == nil) {
             currWordSelected = sender
             //if newly chosen button is in origLanguage (top)
-            if(sender.frame.origin.y == 550) {
+            if(sender.frame.origin.y == 360) {
                 currWordSelectedOrig = true
                 //if newly chosen button is in translatedLanguage (bottom)
             } else {
@@ -500,7 +530,7 @@ class Translate: UIViewController {
             //if the previously selected button is origLanguage
             if(currWordSelectedOrig == true) {
                 //if previously and newly selected buttons are both on top, just change currSelected to new
-                if(sender.frame.origin.y == 550) {
+                if(sender.frame.origin.y == 360) {
                     currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
                     sender.backgroundColor = UIColor(red: 0.5, green: 0.778, blue: 0.778, alpha: 1)
                     currWordSelected = sender
@@ -535,9 +565,9 @@ class Translate: UIViewController {
                             currWordSelected.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
                             sender.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
                         })
-                        UIView.animate(withDuration: 0.4, delay: 0.2, animations: {
-                            currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
-                            sender.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                        UIView.animate(withDuration: 0.4, delay: 0.1, animations: {
+                            currWordSelected.backgroundColor = UIColor.white
+                            sender.backgroundColor = UIColor.white
                         })
                         currWordSelected = nil
                     }
@@ -545,7 +575,7 @@ class Translate: UIViewController {
                 //if previously selected button is translatedLanguage
             } else {
                 //if previously and newly selected buttons are both on bottom, just change currSelected to new
-                if(sender.frame.origin.y == 600) {
+                if(sender.frame.origin.y == 410) {
                     currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
                     sender.backgroundColor = UIColor(red: 0.5, green: 0.778, blue: 0.778, alpha: 1)
                     currWordSelected = sender
@@ -580,9 +610,9 @@ class Translate: UIViewController {
                             currWordSelected.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
                             sender.backgroundColor = UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 1)
                         })
-                        UIView.animate(withDuration: 0.4, delay: 0.2, animations: {
-                            currWordSelected.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
-                            sender.backgroundColor = UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1)
+                        UIView.animate(withDuration: 0.4, delay: 0.1, animations: {
+                            currWordSelected.backgroundColor = UIColor.white
+                            sender.backgroundColor = UIColor.white
                         })
                         currWordSelected = nil
                     }
