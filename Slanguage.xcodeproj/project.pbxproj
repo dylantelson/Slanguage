@@ -21,6 +21,8 @@
 		6470C77A23556764005CB3FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6470C77823556764005CB3FA /* Main.storyboard */; };
 		6470C77C23556765005CB3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6470C77B23556765005CB3FA /* Assets.xcassets */; };
 		6470C77F23556765005CB3FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6470C77D23556765005CB3FA /* LaunchScreen.storyboard */; };
+		64A6E1582366725F00CCA364 /* Bombing.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64A6E1572366706800CCA364 /* Bombing.ttf */; };
+		64BD87132364EFBF00F60632 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BD87122364EFBF00F60632 /* Leaderboard.swift */; };
 		64DFFA0A235906E7005EE2FA /* Translate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DFFA09235906E7005EE2FA /* Translate.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,8 @@
 		6470C77B23556765005CB3FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6470C77E23556765005CB3FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6470C78023556765005CB3FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64A6E1572366706800CCA364 /* Bombing.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Bombing.ttf; path = ../../../../Downloads/bombing/Bombing.ttf; sourceTree = "<group>"; };
+		64BD87122364EFBF00F60632 /* Leaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
 		64DFFA09235906E7005EE2FA /* Translate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,17 +104,27 @@
 		6470C76F23556764005CB3FA /* Slanguage */ = {
 			isa = PBXGroup;
 			children = (
+				64A6E1562366701D00CCA364 /* Fonts */,
 				641ECD78235D138600EDCABE /* chetengomuchafiaca.mp3 */,
 				641ECD7A235D13C900EDCABE /* Audio */,
 				6470C77023556764005CB3FA /* AppDelegate.swift */,
 				64DFFA09235906E7005EE2FA /* Translate.swift */,
 				642A105A235FB86E002D85E6 /* ChooseLanguage.swift */,
+				64BD87122364EFBF00F60632 /* Leaderboard.swift */,
 				6470C77823556764005CB3FA /* Main.storyboard */,
 				6470C77B23556765005CB3FA /* Assets.xcassets */,
 				6470C77D23556765005CB3FA /* LaunchScreen.storyboard */,
 				6470C78023556765005CB3FA /* Info.plist */,
 			);
 			path = Slanguage;
+			sourceTree = "<group>";
+		};
+		64A6E1562366701D00CCA364 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				64A6E1572366706800CCA364 /* Bombing.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A6E1582366725F00CCA364 /* Bombing.ttf in Resources */,
 				641ECD88235D144500EDCABE /* estoyenpedo.mp3 in Resources */,
 				6470C77F23556765005CB3FA /* LaunchScreen.storyboard in Resources */,
 				641ECD89235D144500EDCABE /* sosunboludo.mp3 in Resources */,
@@ -193,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64DFFA0A235906E7005EE2FA /* Translate.swift in Sources */,
+				64BD87132364EFBF00F60632 /* Leaderboard.swift in Sources */,
 				642A105B235FB86E002D85E6 /* ChooseLanguage.swift in Sources */,
 				6470C77123556764005CB3FA /* AppDelegate.swift in Sources */,
 			);

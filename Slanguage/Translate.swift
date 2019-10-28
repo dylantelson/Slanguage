@@ -1,10 +1,9 @@
 /* MAIN TODOLIST:
- 1) Add points system and leaderboard
- 2) Design the app so it looks decent (maybe get Jacob in on it). This includes changing the look of it, adding icons for the tabview, hear button etc.
- 3) Add more phrases and slang of course
- 4) Add more types of minigames- look at other language learning apps and see what they do
- 5) Add more languages
- 6) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+ 1) Add more phrases and slang
+ 2) Add more types of minigames- look at other language learning apps and see what they do
+ 3) Add more languages
+ 4) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+ 5) Add icons for the tab view
 */
 
 import UIKit
@@ -80,6 +79,8 @@ var promptType = 0
 
 var lastCorrect = false
 
+var score = 0
+
 class Translate: UIViewController {
     var currLanguage = 0
     //currLanguage: 0 = Arg, 1 = Aus
@@ -109,7 +110,7 @@ class Translate: UIViewController {
         super.viewDidLoad()
         view.sendSubviewToBack(correctPopup)
         view.sendSubviewToBack(incorrectPopup)
-        checkButton.backgroundColor = UIColor(red: 0.419, green: 0.73, blue: 0.925, alpha: 1)
+        checkButton.backgroundColor = UIColor(red: 0.39, green: 0.635, blue: 0.94, alpha: 1)
         checkButton.layer.cornerRadius = checkButton.frame.height/3
         checkButton.layer.shadowColor = UIColor.darkGray.cgColor
         checkButton.layer.shadowRadius = 1
@@ -118,7 +119,7 @@ class Translate: UIViewController {
         checkButton.titleLabel!.textAlignment = .center
         checkButton.setTitleColor(UIColor.white, for: .normal)
         
-        hearButton.backgroundColor = UIColor(red: 0.714, green: 0.847, blue: 0.945, alpha: 1)
+        hearButton.backgroundColor = UIColor(red: 0.46667, green: 0.77647, blue: 0.98039, alpha: 1)
 //        hearButton.layer.borderWidth = 1.0
 //        hearButton.layer.borderColor = UIColor.lightGray.cgColor
         hearButton.layer.cornerRadius = hearButton.frame.height/3
@@ -132,6 +133,8 @@ class Translate: UIViewController {
         progressBar.transform = CGAffineTransform(scaleX: 1, y: 3)
         lines1.removeFromSuperview()
         lines2.removeFromSuperview()
+        
+        score = UserDefaults.standard.integer(forKey: "UserScore")
         startLearning()
         // Do any additional setup after loading the view.
     }
@@ -266,7 +269,7 @@ class Translate: UIViewController {
             //setting frame
             wordsToClickFrame.last!.isEnabled = false
             wordsToClickFrame.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.frame.width, height: wordsToClick.last!.frame.height)
-            wordsToClickFrame.last!.backgroundColor = UIColor.lightGray
+            wordsToClickFrame.last!.backgroundColor = UIColor(red: 0.9317, green: 0.9317, blue: 0.9317, alpha: 1)
             wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
             wordsToClickFrame.last!.layer.shadowColor = UIColor.darkGray.cgColor
             wordsToClickFrame.last!.layer.shadowRadius = 1
@@ -315,7 +318,7 @@ class Translate: UIViewController {
     func newPhraseReversed() {
         self.view.addSubview(lines1)
         self.view.addSubview(lines2)
-        hearButton.removeFromSuperview()
+        self.view.addSubview(hearButton)
         currString = Int.random(in: 0 ..< currSlangTranslatedPhrases.count)
         textToTranslate.text = currSlangTranslatedPhrases[currString]
         for button in wordsToClick {
@@ -374,7 +377,7 @@ class Translate: UIViewController {
             //setting frame
             wordsToClickFrame.last!.isEnabled = false
             wordsToClickFrame.last!.frame = CGRect(x: wordsToClick.last!.frame.origin.x, y: wordsToClick.last!.frame.origin.y, width: wordsToClick.last!.frame.width, height: wordsToClick.last!.frame.height)
-            wordsToClickFrame.last!.backgroundColor = UIColor.lightGray
+            wordsToClickFrame.last!.backgroundColor = UIColor(red: 0.9317, green: 0.9317, blue: 0.9317, alpha: 1)
             wordsToClickFrame.last!.layer.cornerRadius = wordsToClick.last!.frame.height/3
             wordsToClickFrame.last!.layer.shadowColor = UIColor.darkGray.cgColor
             wordsToClickFrame.last!.layer.shadowRadius = 1
@@ -423,7 +426,7 @@ class Translate: UIViewController {
     func newWordPairer() {
         numCorrectTapPairs = 0
         checkButton.isEnabled = false
-        checkButton.backgroundColor = UIColor.lightGray
+        checkButton.backgroundColor = UIColor(red: 0.91, green: 0.91, blue: 0.91, alpha: 1)
         checkButton.setTitle("Next", for: .normal)
         let random1 = Int.random(in: 0 ... currSlangOrigWords.count - 1)
         var random2 = random1
@@ -799,6 +802,8 @@ class Translate: UIViewController {
     
     func correct() {
         lastCorrect = true
+        score += 100
+        UserDefaults.standard.set(score, forKey: "UserScore")
         let promptsLeft = Float(currSlangOrigPhrases.count) + Float(currSlangOrigWords.count) / 4
         UIView.animate(withDuration: 0.2, animations: {
             self.correctPopup.frame.origin.y = 730
@@ -817,7 +822,7 @@ class Translate: UIViewController {
         if(checkButton.isEnabled == false) {
             checkButton.isEnabled = true
         }
-        checkButton.backgroundColor = UIColor(red: 0.419, green: 0.73, blue: 0.925, alpha: 1)
+        checkButton.backgroundColor = UIColor(red: 0.39, green: 0.635, blue: 0.94, alpha: 1)
         readyForNext = true
         checkButton.setTitle("Next", for: .normal)
         correct()
