@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class ChooseLanguage: UIViewController {
     
@@ -15,5 +16,17 @@ class ChooseLanguage: UIViewController {
         let learnScreen = self.storyboard?.instantiateViewController(withIdentifier: "Translate") as! Translate
         learnScreen.currLanguage = sender.tag
         self.present(learnScreen, animated: true, completion: nil)
+    }
+    
+    //temporarily have log out button on languageselect screen
+    @IBAction func logout(sender: UIButton!) {
+        do {
+            try Auth.auth().signOut()
+        }
+        catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        let startup = storyboard!.instantiateInitialViewController()
+        UIApplication.shared.keyWindow?.rootViewController = startup
     }
 }
