@@ -28,12 +28,12 @@
 		64A6E15A2368ACBA00CCA364 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A6E1592368ACBA00CCA364 /* GoogleService-Info.plist */; };
 		64BD87132364EFBF00F60632 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BD87122364EFBF00F60632 /* Leaderboard.swift */; };
 		64DFFA0A235906E7005EE2FA /* Translate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DFFA09235906E7005EE2FA /* Translate.swift */; };
-		D9A90D1E3947017A42362713 /* Pods_Project_3_CS441.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE36B591301F902EA942780 /* Pods_Project_3_CS441.framework */; };
+		962E97D51BDC3E17467B8B73 /* Pods_Project_3_CS441.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598B2E85B7583EB0DE5FFBCB /* Pods_Project_3_CS441.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0AE36B591301F902EA942780 /* Pods_Project_3_CS441.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_3_CS441.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3141A8B9BAC8F8631F23061D /* Pods-Project 3 CS441.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project 3 CS441.release.xcconfig"; path = "Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441.release.xcconfig"; sourceTree = "<group>"; };
+		598B2E85B7583EB0DE5FFBCB /* Pods_Project_3_CS441.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_3_CS441.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		641ECD76235D124100EDCABE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		641ECD78235D138600EDCABE /* chetengomuchafiaca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = chetengomuchafiaca.mp3; path = ../../../Downloads/chetengomuchafiaca.mp3; sourceTree = "<group>"; };
 		641ECD7B235D13D200EDCABE /* chetengomuchafiaca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chetengomuchafiaca.mp3; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				641ECD77235D124100EDCABE /* AVFoundation.framework in Frameworks */,
-				D9A90D1E3947017A42362713 /* Pods_Project_3_CS441.framework in Frameworks */,
+				962E97D51BDC3E17467B8B73 /* Pods_Project_3_CS441.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				641ECD76235D124100EDCABE /* AVFoundation.framework */,
-				0AE36B591301F902EA942780 /* Pods_Project_3_CS441.framework */,
+				598B2E85B7583EB0DE5FFBCB /* Pods_Project_3_CS441.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,7 +166,7 @@
 				6470C76923556764005CB3FA /* Sources */,
 				6470C76A23556764005CB3FA /* Frameworks */,
 				6470C76B23556764005CB3FA /* Resources */,
-				56272A326FC88B08952E29B8 /* [CP] Embed Pods Frameworks */,
+				400B7B523077DA918F0D9E85 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -234,6 +234,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		400B7B523077DA918F0D9E85 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		468585DC515B42E062865B29 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,23 +271,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		56272A326FC88B08952E29B8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

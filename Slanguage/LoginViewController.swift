@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var email : UITextField!
     @IBOutlet weak var pass : UITextField!
     
+    //Learned how to use Firebase from the following article: https://medium.com/@ashikabala01/how-to-build-login-and-sign-up-functionality-for-your-ios-app-using-firebase-within-15-mins-df4731faf2f7
     @IBAction func loginClicked(_ sender: Any) {
         Auth.auth().signIn(withEmail: email.text!, password: pass.text!) { (user, error) in
             if error == nil{
