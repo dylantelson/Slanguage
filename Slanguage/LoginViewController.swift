@@ -19,8 +19,7 @@ class LoginViewController: UIViewController {
     @IBAction func loginClicked(_ sender: Any) {
         Auth.auth().signIn(withEmail: email.text!, password: pass.text!) { (user, error) in
             if error == nil{
-                let languageSelect = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
-                self.present(languageSelect, animated: true, completion: nil)
+                self.performSegue(withIdentifier: "loginToHome", sender: self)
             }
             else{
                 let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)

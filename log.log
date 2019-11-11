@@ -1,0 +1,244 @@
+commit 46a7d9101091c0165979f02aaacbce1abf2b66a5
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Sun Oct 27 22:01:35 2019 -0400
+
+    Added a leaderboard screen where it puts you up against a currently pre-made list of other "users."
+    Added a score system where you gain 100 points every time you complete a prompt, and is saved using UserDefaults.standard.
+    Made many design changes, such as changing the title's font and the color of progress bar, check button, button frames, and more.
+
+ Slanguage.xcodeproj/project.pbxproj                |  16 ++
+ .../Assets.xcassets/back.imageset/Contents.json    |  21 +++
+ .../back.imageset/icons8-back-50.png               | Bin 0 -> 220 bytes
+ Slanguage/Base.lproj/Main.storyboard               | 187 +++++++++------------
+ Slanguage/Info.plist                               |   4 +
+ Slanguage/Leaderboard.swift                        |  84 +++++++++
+ Slanguage/README.md                                |  22 +++
+ Slanguage/Translate.swift                          |  31 ++--
+ 8 files changed, 242 insertions(+), 123 deletions(-)
+
+commit 547f242c572833742ef4ca0357392b72fedd0580
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Fri Oct 25 21:01:18 2019 -0400
+
+    Added image to the hear button (button clicked to relisten to current phrase) to replace text. Added 2 lines which the translate buttons sit on after being pressed for a better design look. Changed textToTranslate to appear from the left, next to the hear button, rather than center. Still must do something with the text when it says "Tap the Pairs" (either make it centered or just erase it and replace the "TRANSLATE" on top). The pairs to tap now appear much higher in the screen.
+    Changed the color and shape of buttons.
+
+ .../playwhite.imageset/Contents.json               |  21 ++++
+ .../playwhite.imageset/playwhite.png               | Bin 0 -> 256 bytes
+ Slanguage/Base.lproj/Main.storyboard               |  38 ++++---
+ Slanguage/Translate.swift                          | 124 +++++++++++++--------
+ 4 files changed, 123 insertions(+), 60 deletions(-)
+
+commit afd5f52564eca9a28f336a0d2487f59527e45045
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Fri Oct 25 12:26:43 2019 -0400
+
+    Made it so the buttons are always centered, as before it was too left-heavy or right-heavy depending on whether the row had long words or short words. In order to make this possible, I changed the way the tapping on words works during translations: now the buttons have a fixed position and return to it when the button is clicked at the top, rather than every button constantly readjusting its position based on the position of other buttons. Added frames to the buttons at the bottom so when the button is at the top, there is a gray frame that shows where it would return (its original position).
+    
+    Added an Argentinian and an Australian flag to the launch screen to replace the buttons that said "ARG" and "AUS." Also added an Italian and a Brazilian flag, both of which are currently not clickable. Also added the current flag to the learning screen at the top, next to where it says the name of the app.
+    
+    Fixed bug where the current audio clip would be deleted after an incorrect response, which would lead to a crash later on.
+
+ .../argentina.imageset/Contents.json               |  21 ++
+ .../argentina.imageset/argentina (1).png           | Bin 0 -> 1772 bytes
+ .../argentinasmall.imageset/Contents.json          |  21 ++
+ .../argentinasmall.imageset/argentina (3).png      | Bin 0 -> 511 bytes
+ .../australia.imageset/Contents.json               |  21 ++
+ .../australia.imageset/australia (1).png           | Bin 0 -> 4044 bytes
+ .../australiasmall.imageset/Contents.json          |  21 ++
+ .../australiasmall.imageset/australia (2).png      | Bin 0 -> 952 bytes
+ .../Assets.xcassets/brazil.imageset/Contents.json  |  21 ++
+ .../Assets.xcassets/brazil.imageset/brazil.png     | Bin 0 -> 1969 bytes
+ .../brazilsmall.imageset/Contents.json             |  21 ++
+ .../brazilsmall.imageset/brazil (1).png            | Bin 0 -> 579 bytes
+ .../Assets.xcassets/italy.imageset/Contents.json   |  21 ++
+ Slanguage/Assets.xcassets/italy.imageset/italy.png | Bin 0 -> 760 bytes
+ .../italysmall.imageset/Contents.json              |  21 ++
+ .../italysmall.imageset/italy (1).png              | Bin 0 -> 343 bytes
+ Slanguage/Base.lproj/Main.storyboard               |  78 +++++---
+ Slanguage/Translate.swift                          | 215 ++++++++++++++++-----
+ 18 files changed, 393 insertions(+), 68 deletions(-)
+
+commit c4e40f0ade2f1f11e33503b2298cb7d7438c8ebd
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Thu Oct 24 19:17:39 2019 -0400
+
+    Finished the tap pairs mini game and moved the "Correct!" and "Incorrect!" code into its own functions, correct() and incorrect().
+
+ Slanguage/Translate.swift | 180 +++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 156 insertions(+), 24 deletions(-)
+
+commit 07dd62c368b1ca779088832e24704088cdc70a64
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Wed Oct 23 01:00:44 2019 -0400
+
+    Added a screen where the user can choose what language to learn, between Argentinian Spanish and Australian English. Added Australian English, though currently do not have audio recorded for it. Also started coding a minigame where the user taps on pairs of words (one from the original language, one translated). Added a back button at the Translate screen for the user to go back to the Language Select screen. Made it so after the user inputs a correct translation, they can no longer click on the words until they go on to the next prompt.
+
+ Slanguage.xcodeproj/project.pbxproj  |   4 +
+ Slanguage/Base.lproj/Main.storyboard | 113 ++++++++++-----
+ Slanguage/ChooseLanguage.swift       |  19 +++
+ Slanguage/Translate.swift            | 266 +++++++++++++++++++++++++++--------
+ 4 files changed, 308 insertions(+), 94 deletions(-)
+
+commit 095dc9868db043cbd2a382c83a04d881d9d03977
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Tue Oct 22 13:23:48 2019 -0400
+
+    Added a progress bar for the current lesson, and changed the code so instead of using slangsArgOrig/slangsArgTranslated/audioClipsArg (which will be all the possible phrases, rather than the current lesson phrases) I use currSlangOrig/currSlangTranslated/currAudioClips, which currently serves the same purpose but in the future will be more versatile as they will be able to be used for multiple languages and not have all of the phrases in the previous arrays when they are more filled up.
+    
+    Also added a view that pops up telling the user they are incorrect when they input a wrong answer. This view works in the exact same way as the correct popup view does, except is red and says "Incorrect!"
+    Added a function named "startLearning()" which sets up the current lesson.
+    Made some minor design changes, such as modifying colors and changing "Text to Translate:" to "TRANSLATE" and adding a placeholder where I will add the current language/dialect's flag.
+
+ Slanguage/Base.lproj/Main.storyboard |  55 +++++++++++++++---
+ Slanguage/Translate.swift            | 105 +++++++++++++++++++++++++++--------
+ 2 files changed, 128 insertions(+), 32 deletions(-)
+
+commit 05d598589d1b7e839ff8877ea67c20271d4678a3
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Tue Oct 22 02:55:23 2019 -0400
+
+    Removed the "Next" button, and instead have the Check button have two states: it says "Check" before the translation is given by the user, and if correct, it changes its text to "Next" and serves the function of the old "Next" button. Also added a popup that will move itself from the bottom of the screen after the correct translation is given and say "Correct!" while behind the "Check"/"Next" button.
+
+ Slanguage/Base.lproj/Main.storyboard | 50 ++++++++++++++----------
+ Slanguage/Translate.swift            | 76 ++++++++++++++++++++++--------------
+ 2 files changed, 75 insertions(+), 51 deletions(-)
+
+commit 69cea4eb38ebec981df163eb49ef9692d5aa757a
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Mon Oct 21 12:34:12 2019 -0400
+
+    Animated the buttons' movements: when you click on a button, it moves quickly to the destination rather than instantly changing position. The buttons that rearrange after a button is clicked also move to their new position over 0.2 seconds. Added a "Hear" button which plays the current phrase audio when clicked (only enabled while the phrase in Spanish is given or already translated).
+
+ Slanguage/Base.lproj/Main.storyboard | 161 +++++++++++++++++++++++++++--------
+ Slanguage/Translate.swift            | 147 +++++++++++++++++++++++---------
+ 2 files changed, 236 insertions(+), 72 deletions(-)
+
+commit be97c25879b524baae253e4585136e40b0452fbf
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Sun Oct 20 21:07:34 2019 -0400
+
+    Added functionality to Next button, so now the Check button does not automatically start a new prompt. The check button is active and next button is inactive while a prompt is in progress, and the opposite is true after the user gets the correct answer.
+
+ Slanguage/Base.lproj/Main.storyboard |  3 +++
+ Slanguage/Translate.swift            | 15 +++++++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+commit 8ba1d00d9540865f98a5a8634f931391ce7b6963
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Sun Oct 20 18:23:01 2019 -0400
+
+    Added audio of the Spanish phrases so the user can hear and learn the correct pronunciation. Also added a Next button, which for now does nothing. Added a Tab View Controller so you can switch between two screens, the Learn ViewController (where the user learns slang translations) and the Leaderboard ViewController (which for now is empty, but will become a leaderboard tableview).
+
+ Slanguage.xcodeproj/project.pbxproj    |  54 ++++++++++++++++++++++++++
+ Slanguage/Audio/chetengomuchafiaca.mp3 | Bin 0 -> 51827 bytes
+ Slanguage/Base.lproj/Main.storyboard   |  68 ++++++++++++++++++++++++++++++---
+ Slanguage/Translate.swift              |  37 +++++++++++++++++-
+ 4 files changed, 151 insertions(+), 8 deletions(-)
+
+commit 41fe9497e9a7d86f93c01e0e7845b25bdcd37d61
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Sat Oct 19 16:31:05 2019 -0400
+
+    Now instead of just translating Spanish -> English you can also translate English -> Spanish. It is randomly decided which prompt type is given. Edited the capitalization of phrases.
+
+ Slanguage/Translate.swift | 98 ++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 88 insertions(+), 10 deletions(-)
+
+commit c429c8bed91e5920465bc257d509432658602e3d
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Sat Oct 19 00:11:20 2019 -0400
+
+    Worked on making the buttons change position correctly when others are clicked- now, for example, if the first (topleft-most) button is clicked, all the others on the row will move to the left to the correct position and those on the next row will also move accordingly (leftmost one move up a row and to the right, others left, etc.) Added random words, so now there are words shown that are not used in the phrase and the user must sift through and only select the correct ones (in the correct order). Also added more phrases.
+
+ Slanguage/Translate.swift | 131 +++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 123 insertions(+), 8 deletions(-)
+
+commit 5256eecda70eb1f40e52b64f717ca65f47ef1efc
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Fri Oct 18 11:46:22 2019 -0400
+
+    Got the basics working: now the user is given a random phrase from an array, then must arrange the translation in the correct order by clicking on them, and then pressing "Check." If they are correct, it prints, "Correct!" and gives a new random phrase, while if incorrect it prints, "Incorrect!" and the user must see what they did wrong and rearrange the letters. Next step is making duplicates not happen, at least not consecutively, and adding more phrases.
+
+ Slanguage/Base.lproj/Main.storyboard |  5 ++++-
+ Slanguage/Translate.swift            | 36 ++++++++++++++++++++++++++++++++++--
+ 2 files changed, 38 insertions(+), 3 deletions(-)
+
+commit 12d95fb028e733b766e77e5ebc69896b87bc7eb0
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Thu Oct 17 17:43:59 2019 -0400
+
+    Added the basics of a Duolingo-type app: From an array of strings in Spanish, the translation is split up and displayed as separate buttons. Added buttons, UILabels, basic programming, etc.
+
+ Slanguage.xcodeproj/project.pbxproj  | 16 ++-----
+ Slanguage/Base.lproj/Main.storyboard | 84 +++++++++++++++++------------------
+ Slanguage/DataViewController.swift   | 29 ------------
+ Slanguage/ModelController.swift      | 77 --------------------------------
+ Slanguage/RootViewController.swift   | 85 ------------------------------------
+ Slanguage/Translate.swift            | 58 ++++++++++++++++++++++++
+ 6 files changed, 102 insertions(+), 247 deletions(-)
+
+commit 6e0e8d3b5c72005a6457c5ac9da5d233462c64d9
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Thu Oct 17 16:20:57 2019 -0400
+
+    Changed name to Slanguage, testing commit to see if it will let me with different folder names
+
+ Project 3 CS441.xcodeproj/project.pbxproj          | 349 ---------------------
+ .../project.xcworkspace/contents.xcworkspacedata   |   7 -
+ .../xcshareddata/IDEWorkspaceChecks.plist          |   8 -
+ .../xcschemes/xcschememanagement.plist             |  19 --
+ Project 3/AppDelegate.swift                        |  46 ---
+ .../AppIcon.appiconset/Contents.json               |  98 ------
+ Project 3/Assets.xcassets/Contents.json            |   6 -
+ Project 3/Base.lproj/LaunchScreen.storyboard       |  25 --
+ Project 3/Base.lproj/Main.storyboard               |  64 ----
+ Project 3/DataViewController.swift                 |  28 --
+ Project 3/Info.plist                               |  45 ---
+ Project 3/ModelController.swift                    |  77 -----
+ Project 3/RootViewController.swift                 |  85 -----
+ Slanguage.xcodeproj/project.pbxproj                | 349 +++++++++++++++++++++
+ .../project.xcworkspace/contents.xcworkspacedata   |   7 +
+ .../xcshareddata/IDEWorkspaceChecks.plist          |   8 +
+ .../xcschemes/xcschememanagement.plist             |  19 ++
+ Slanguage/AppDelegate.swift                        |  46 +++
+ .../AppIcon.appiconset/Contents.json               |  98 ++++++
+ Slanguage/Assets.xcassets/Contents.json            |   6 +
+ Slanguage/Base.lproj/LaunchScreen.storyboard       |  25 ++
+ Slanguage/Base.lproj/Main.storyboard               |  64 ++++
+ Slanguage/DataViewController.swift                 |  29 ++
+ Slanguage/Info.plist                               |  45 +++
+ Slanguage/ModelController.swift                    |  77 +++++
+ Slanguage/RootViewController.swift                 |  85 +++++
+ 26 files changed, 858 insertions(+), 857 deletions(-)
+
+commit b88ad2a916557c1217cde58f389a1aeed3ab727a
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Mon Oct 14 22:35:15 2019 -0400
+
+    Started Project 3 with a Pageview Controller.
+
+ .../dylantelson.xcuserdatad/xcschemes/xcschememanagement.plist       | 5 +++++
+ Project 3/DataViewController.swift                                   | 1 -
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+commit 62b8dda114daba036d3521736016520a9efd4fa0
+Author: Dylan Telson <dtelson1@binghamton.edu>
+Date:   Mon Oct 14 22:33:37 2019 -0400
+
+    Initial Commit
+
+ Project 3 CS441.xcodeproj/project.pbxproj          | 349 +++++++++++++++++++++
+ .../project.xcworkspace/contents.xcworkspacedata   |   7 +
+ .../xcshareddata/IDEWorkspaceChecks.plist          |   8 +
+ .../xcschemes/xcschememanagement.plist             |  14 +
+ Project 3/AppDelegate.swift                        |  46 +++
+ .../AppIcon.appiconset/Contents.json               |  98 ++++++
+ Project 3/Assets.xcassets/Contents.json            |   6 +
+ Project 3/Base.lproj/LaunchScreen.storyboard       |  25 ++
+ Project 3/Base.lproj/Main.storyboard               |  64 ++++
+ Project 3/DataViewController.swift                 |  29 ++
+ Project 3/Info.plist                               |  45 +++
+ Project 3/ModelController.swift                    |  77 +++++
+ Project 3/RootViewController.swift                 |  85 +++++
+ 13 files changed, 853 insertions(+)

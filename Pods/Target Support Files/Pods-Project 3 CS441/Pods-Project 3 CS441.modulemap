@@ -1,0 +1,6 @@
+framework module Pods_Project_3_CS441 {
+  umbrella header "Pods-Project 3 CS441-umbrella.h"
+
+  export *
+  module * { export * }
+}

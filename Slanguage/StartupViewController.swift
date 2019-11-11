@@ -16,8 +16,9 @@ class StartupViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
         if Auth.auth().currentUser != nil {
-            let languageSelect = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
-            self.present(languageSelect, animated: true, completion: nil)
+//            let languageSelect = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
+//            self.present(languageSelect, animated: true, completion: nil)
+            self.performSegue(withIdentifier: "startToHome", sender: self)
         }
     }
     

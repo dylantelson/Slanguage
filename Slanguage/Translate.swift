@@ -796,8 +796,9 @@ class Translate: UIViewController {
     }
     
     @IBAction func backButtonClicked(sender: UIButton!) {
-        let chooseLangScreen = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
-        self.present(chooseLangScreen, animated: true, completion: nil)
+//        let chooseLangScreen = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
+//        self.present(chooseLangScreen, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "learnToLanguage", sender: self)
     }
     
     func correct() {

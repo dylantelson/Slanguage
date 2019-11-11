@@ -13,9 +13,10 @@ import FirebaseAuth
 class ChooseLanguage: UIViewController {
     
     @IBAction func checkButtonClicked(sender: UIButton!) {
-        let learnScreen = self.storyboard?.instantiateViewController(withIdentifier: "Translate") as! Translate
-        learnScreen.currLanguage = sender.tag
-        self.present(learnScreen, animated: true, completion: nil)
+//        let learnScreen = self.storyboard?.instantiateViewController(withIdentifier: "Translate") as! Translate
+//        learnScreen.currLanguage = sender.tag
+//        self.present(learnScreen, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "languageToLearn", sender: self)
     }
     
     //temporarily have log out button on languageselect screen

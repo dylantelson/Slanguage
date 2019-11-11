@@ -16,6 +16,7 @@
 		641ECD87235D144500EDCABE /* estoyrealpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD80235D144500EDCABE /* estoyrealpedo.mp3 */; };
 		641ECD88235D144500EDCABE /* estoyenpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD81235D144500EDCABE /* estoyenpedo.mp3 */; };
 		641ECD89235D144500EDCABE /* sosunboludo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 641ECD82235D144500EDCABE /* sosunboludo.mp3 */; };
+		6427914D2379EBC900E57C09 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6427914C2379EBC900E57C09 /* GoogleService-Info.plist */; };
 		642A105B235FB86E002D85E6 /* ChooseLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642A105A235FB86E002D85E6 /* ChooseLanguage.swift */; };
 		6470C77123556764005CB3FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6470C77023556764005CB3FA /* AppDelegate.swift */; };
 		6470C77A23556764005CB3FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6470C77823556764005CB3FA /* Main.storyboard */; };
@@ -25,7 +26,6 @@
 		64A691992368B0B0000002D5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A691982368B0AF000002D5 /* LoginViewController.swift */; };
 		64A6919B2368B36C000002D5 /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A6919A2368B36C000002D5 /* StartupViewController.swift */; };
 		64A6E1582366725F00CCA364 /* Bombing.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64A6E1572366706800CCA364 /* Bombing.ttf */; };
-		64A6E15A2368ACBA00CCA364 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A6E1592368ACBA00CCA364 /* GoogleService-Info.plist */; };
 		64BD87132364EFBF00F60632 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BD87122364EFBF00F60632 /* Leaderboard.swift */; };
 		64DFFA0A235906E7005EE2FA /* Translate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DFFA09235906E7005EE2FA /* Translate.swift */; };
 		962E97D51BDC3E17467B8B73 /* Pods_Project_3_CS441.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598B2E85B7583EB0DE5FFBCB /* Pods_Project_3_CS441.framework */; };
@@ -44,6 +44,7 @@
 		641ECD80235D144500EDCABE /* estoyrealpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = estoyrealpedo.mp3; path = ../../../../Downloads/estoyrealpedo.mp3; sourceTree = "<group>"; };
 		641ECD81235D144500EDCABE /* estoyenpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = estoyenpedo.mp3; path = ../../../../Downloads/estoyenpedo.mp3; sourceTree = "<group>"; };
 		641ECD82235D144500EDCABE /* sosunboludo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = sosunboludo.mp3; path = ../../../../Downloads/sosunboludo.mp3; sourceTree = "<group>"; };
+		6427914C2379EBC900E57C09 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		642A105A235FB86E002D85E6 /* ChooseLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLanguage.swift; sourceTree = "<group>"; };
 		6470C76D23556764005CB3FA /* Project 3 CS441.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 3 CS441.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6470C77023556764005CB3FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +56,6 @@
 		64A691982368B0AF000002D5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		64A6919A2368B36C000002D5 /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		64A6E1572366706800CCA364 /* Bombing.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Bombing.ttf; path = ../../../../Downloads/bombing/Bombing.ttf; sourceTree = "<group>"; };
-		64A6E1592368ACBA00CCA364 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		64BD87122364EFBF00F60632 /* Leaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
 		64DFFA09235906E7005EE2FA /* Translate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translate.swift; sourceTree = "<group>"; };
 		AE450F30CA7D947CA9F271DE /* Pods-Project 3 CS441.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project 3 CS441.debug.xcconfig"; path = "Target Support Files/Pods-Project 3 CS441/Pods-Project 3 CS441.debug.xcconfig"; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 				6470C77B23556765005CB3FA /* Assets.xcassets */,
 				6470C77D23556765005CB3FA /* LaunchScreen.storyboard */,
 				6470C78023556765005CB3FA /* Info.plist */,
-				64A6E1592368ACBA00CCA364 /* GoogleService-Info.plist */,
+				6427914C2379EBC900E57C09 /* GoogleService-Info.plist */,
 			);
 			path = Slanguage;
 			sourceTree = "<group>";
@@ -215,7 +215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A6E15A2368ACBA00CCA364 /* GoogleService-Info.plist in Resources */,
+				6427914D2379EBC900E57C09 /* GoogleService-Info.plist in Resources */,
 				64A6E1582366725F00CCA364 /* Bombing.ttf in Resources */,
 				641ECD88235D144500EDCABE /* estoyenpedo.mp3 in Resources */,
 				6470C77F23556765005CB3FA /* LaunchScreen.storyboard in Resources */,
