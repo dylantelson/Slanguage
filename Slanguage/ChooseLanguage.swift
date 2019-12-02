@@ -12,6 +12,13 @@ import FirebaseAuth
 
 class ChooseLanguage: UIViewController {
     
+    //eventually have it so it automatically goes to currlang (saved in database) if currlange != "null"
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
     @IBAction func checkButtonClicked(sender: UIButton!) {
 //        let learnScreen = self.storyboard?.instantiateViewController(withIdentifier: "Translate") as! Translate
 //        learnScreen.currLanguage = sender.tag
