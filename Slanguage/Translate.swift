@@ -8,17 +8,20 @@
 
 import UIKit
 import AVFoundation
+import Firebase
 
-var flagNames = ["argentinasmall", "australiasmall", "brazilsmall", "italysmall"]
+let languages = ["arg", "aus"]
 
-var randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
-var RandomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
-var randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
+let flagNames = ["argentinasmall", "australiasmall", "brazilsmall", "italysmall"]
 
-var randomOrigWordArray = [RandomArgWords, randomAusWords]
+let randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
+let RandomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
+let randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
 
-var slangsArgOrigPhrases = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
-var slangsArgTranslatedPhrases = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
+let randomOrigWordArray = [RandomArgWords, randomAusWords]
+
+let slangsArgOrigPhrases = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
+let slangsArgTranslatedPhrases = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
 
 var slangsAusOrigPhrases = ["My son's room is a dog's breakfast", "Put the maccas on the barbie", "My ankle biter wants an avo"]
 var slangsAusTranslatedPhrases = ["My son's room is a mess", "Put the McDonalds on the barbecue", "My child wants an avocado"]
@@ -83,6 +86,8 @@ var score = 0
 
 class Translate: UIViewController {
     var currLanguage = 0
+    
+    let db = Firestore.firestore()
     //currLanguage: 0 = Arg, 1 = Aus
 //    init(currLang: Int) {
 //        self.currLanguage = currLang
@@ -108,6 +113,19 @@ class Translate: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let currUserData = db.collection("users").document(Auth.auth().currentUser!.uid)
+        currUserData.updateData([
+            "currLang": languages[currLanguage]
+        ]) { err in
+            if let err = err {
+                print("Error updating score: \(err)")
+            } else {
+                print("CurrLang successfully updated")
+            }
+        }
+        
+        
         view.sendSubviewToBack(correctPopup)
         view.sendSubviewToBack(incorrectPopup)
         checkButton.backgroundColor = UIColor(red: 0.39, green: 0.635, blue: 0.94, alpha: 1)
@@ -798,7 +816,19 @@ class Translate: UIViewController {
     @IBAction func backButtonClicked(sender: UIButton!) {
 //        let chooseLangScreen = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
 //        self.present(chooseLangScreen, animated: true, completion: nil)
-        self.performSegue(withIdentifier: "learnToLanguage", sender: self)
+        
+        //this is here for testing purposes. in future, should be when each lesson is finished or something like that, so if the user quits midway they don't get score added
+        let currUserData = db.collection("users").document(Auth.auth().currentUser!.uid)
+        currUserData.updateData([
+            "score": UserDefaults.standard.integer(forKey: "UserScore")
+        ]) { err in
+            if let err = err {
+                print("Error updating score: \(err)")
+            } else {
+                print("Score successfully updated")
+                self.performSegue(withIdentifier: "learnToLanguage", sender: self)
+            }
+        }
     }
     
     func correct() {

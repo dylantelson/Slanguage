@@ -34,7 +34,7 @@ class SignUpViewController: UIViewController {
                 if error == nil {
                     print("len: ", self.username.text!.count)
                     let db = Firestore.firestore()
-                    db.collection("users").document((user?.user.uid)!).setData(["score": 0, "user":self.username.text!, "currlang":"null"])
+                    db.collection("users").document((user?.user.uid)!).setData(["score": 0, "username":self.username.text!, "currlang":"null"])
                     self.performSegue(withIdentifier: "signupToHome", sender: self)
                 } else {
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)

@@ -9,16 +9,29 @@
 import Foundation
 import UIKit
 import Firebase
-import FirebaseAuth
 
 class StartupViewController: UIViewController {
-    
+
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
+        let db = Firestore.firestore()
         if Auth.auth().currentUser != nil {
 //            let languageSelect = self.storyboard?.instantiateViewController(withIdentifier: "TabController") as! UITabBarController
 //            self.present(languageSelect, animated: true, completion: nil)
-            self.performSegue(withIdentifier: "startToHome", sender: self)
+            
+            let currUserData = db.collection("users").document(Auth.auth().currentUser!.uid)
+
+            currUserData.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    //let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    UserDefaults.standard.set(document["score"], forKey: "UserScore")
+                    UserDefaults.standard.set(document["username"], forKey: "Username")
+                    UserDefaults.standard.set(document["currLang"], forKey: "currLang")
+                    self.performSegue(withIdentifier: "startToHome", sender: self)
+                } else {
+                    print("Document does not exist")
+                }
+            }
         }
     }
     
