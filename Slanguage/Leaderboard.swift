@@ -67,7 +67,7 @@ class Leaderboard: UIViewController, UITableViewDataSource, UITableViewDelegate 
         let group = DispatchGroup()
         group.enter()
         
-        Firestore.firestore().collection("users").order(by: "score", descending: true).limit(to: 5)
+        Firestore.firestore().collection("users").order(by: "score", descending: true).limit(to: 20)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -112,11 +112,10 @@ class Leaderboard: UIViewController, UITableViewDataSource, UITableViewDelegate 
         cell?.setUpCell()
         cell!.aMap.text = cellName
         cell!.aVal.text = String(cellValue)
-        if(cellName == UserDefaults.standard.string(forKey: "Username")) {
+        if(cellName == UserDefaults.standard.string(forKey: "UserName")) {
             cell!.aMap.textColor = UIColor.blue
             cell!.aVal.textColor = UIColor.blue
         }
         return cell!
     }
-    
 }

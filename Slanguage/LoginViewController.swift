@@ -18,8 +18,20 @@ class LoginViewController: UIViewController {
     //Learned how to use Firebase from the following article: https://medium.com/@ashikabala01/how-to-build-login-and-sign-up-functionality-for-your-ios-app-using-firebase-within-15-mins-df4731faf2f7
     @IBAction func loginClicked(_ sender: Any) {
         Auth.auth().signIn(withEmail: email.text!, password: pass.text!) { (user, error) in
-            if error == nil{
-                self.performSegue(withIdentifier: "loginToHome", sender: self)
+            if error == nil {
+                let currUserData = Firestore.firestore().collection("users").document(Auth.auth().currentUser!.uid)
+
+                currUserData.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        //let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        UserDefaults.standard.set(document["score"], forKey: "UserScore")
+                        UserDefaults.standard.set(document["username"], forKey: "UserName")
+                        UserDefaults.standard.set(document["currLang"], forKey: "currLang")
+                        self.performSegue(withIdentifier: "loginToHome", sender: self)
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
             }
             else{
                 let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)

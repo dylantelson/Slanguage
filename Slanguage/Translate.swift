@@ -10,15 +10,16 @@ import UIKit
 import AVFoundation
 import Firebase
 
-let languages = ["arg", "aus"]
+let languages = ["arg", "aus", "bra"]
 
 let flagNames = ["argentinasmall", "australiasmall", "brazilsmall", "italysmall"]
 
 let randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
-let RandomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
+let randomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
 let randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
+let randomBraWords = ["legal", "muito", "ela", "ruim", "louco", "coraçao", "desafinado", "queijo", "bacana", "bom", "beleza", "cara", "gato", "valeu", "bola", "verdade"]
 
-let randomOrigWordArray = [RandomArgWords, randomAusWords]
+let randomOrigWordArray = [randomArgWords, randomAusWords, randomBraWords]
 
 let slangsArgOrigPhrases = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
 let slangsArgTranslatedPhrases = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
@@ -26,8 +27,12 @@ let slangsArgTranslatedPhrases = ["I'm screwed", "I have bad luck", "You're a je
 var slangsAusOrigPhrases = ["My son's room is a dog's breakfast", "Put the maccas on the barbie", "My ankle biter wants an avo"]
 var slangsAusTranslatedPhrases = ["My son's room is a mess", "Put the McDonalds on the barbecue", "My child wants an avocado"]
 
+var slangsBraOrigPhrases = ["Cala boca, deveria se aposentar", "Voçe é meu Deus", "Voçe pisou na bola feio comigo", "Ops, foi mal"]
+var slangsBraTranslatedPhrases = ["Shut up, you should retire", "You are my God", "You really let me down", "Whoops, my bad"]
+
 var audioClipsArgPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos"]
 var audioClipsAusPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo"]
+var audioClipsBraPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyrealpedo"]
 
 var currSlangOrigPhrases = [String]()
 var currSlangTranslatedPhrases = [String]()
@@ -39,21 +44,25 @@ var slangsArgTranslatedWords = ["screwed", "bad luck", "jerk", "laziness", "dude
 var slangsAusOrigWords = ["bogan", "brolly", "ankle biter", "chook", "crikey", "dag", "dunny", "durry", "frothy", "sheila", "straya", "bruce"]
 var slangsAusTranslatedWords = ["redneck", "umbrella", "child", "chicken", "wow", "nerd", "toilet", "cigarette", "beer", "woman", "australia", "man"]
 
+var slangsBraOrigWords = ["legal", "cara", "bacana", "beleza", "valeu", "aposentar", "joia", "cabeça-dura", "foi mal", "e aí", "demorou", "treta"]
+var slangsBraTranslatedWords = ["awesome", "dude", "nice", "beauty", "thanks", "retire", "great", "stubborn", "my bad", "what's up", "of course", "fight"]
+
 //replace these with the words after recording them- for now just Spanish placeholders from the phrases
 var audioClipsArgWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
-var audioClipsAusWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+var audioClipsAusWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+var audioClipsBraWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
 
 var currSlangOrigWords = [String]()
 var currSlangTranslatedWords = [String]()
 var currAudioClipsWords = [String]()
 
-var languagesOrigPhrases = [slangsArgOrigPhrases, slangsAusOrigPhrases]
-var languagesTranslatedPhrases = [slangsArgTranslatedPhrases, slangsAusTranslatedPhrases]
-var languageAudioClipsPhrases = [audioClipsArgPhrases, audioClipsAusPhrases]
+var languagesOrigPhrases = [slangsArgOrigPhrases, slangsAusOrigPhrases, slangsBraOrigPhrases]
+var languagesTranslatedPhrases = [slangsArgTranslatedPhrases, slangsAusTranslatedPhrases, slangsBraTranslatedPhrases]
+var languageAudioClipsPhrases = [audioClipsArgPhrases, audioClipsAusPhrases, audioClipsBraPhrases]
 
-var languagesOrigWords = [slangsArgOrigWords, slangsAusOrigWords]
-var languagesTranslatedWords = [slangsArgTranslatedWords, slangsAusTranslatedWords]
-var languageAudioClipsWords = [audioClipsArgWords, audioClipsAusWords]
+var languagesOrigWords = [slangsArgOrigWords, slangsAusOrigWords, slangsBraOrigWords]
+var languagesTranslatedWords = [slangsArgTranslatedWords, slangsAusTranslatedWords, slangsBraTranslatedWords]
+var languageAudioClipsWords = [audioClipsArgWords, audioClipsAusWords, audioClipsBraWords]
 
 var readyForNext = true
 

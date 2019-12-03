@@ -29,12 +29,20 @@ class SignUpViewController: UIViewController {
             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             alertController.addAction(defaultAction)
             self.present(alertController, animated: true, completion: nil)
+        } else if(username.text!.contains(" ")) {
+            let alertController = UIAlertController(title: "Error", message: "Username must not have any spaces.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true, completion: nil)
         } else {
             Auth.auth().createUser(withEmail: email.text!, password: pass.text!){ (user, error) in
                 if error == nil {
                     print("len: ", self.username.text!.count)
                     let db = Firestore.firestore()
-                    db.collection("users").document((user?.user.uid)!).setData(["score": 0, "username":self.username.text!, "currlang":"null"])
+                    db.collection("users").document((user?.user.uid)!).setData(["score": 0, "username":self.username.text!, "currLang":"null"])
+                    UserDefaults.standard.set(0, forKey: "UserScore")
+                    UserDefaults.standard.set(self.username.text!, forKey: "UserName")
+                    UserDefaults.standard.set("null", forKey: "currLang")
                     self.performSegue(withIdentifier: "signupToHome", sender: self)
                 } else {
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
