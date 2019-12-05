@@ -1,68 +1,83 @@
 /* MAIN TODOLIST:
  1) Add more phrases and slang
  2) Add more types of minigames- look at other language learning apps and see what they do
- 3) Add more languages
- 4) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+ 3) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
+ 4) Add audio for languages without audio for words and phrases
  5) Add icons for the tab view
+ 6) Add lessons to each language with a collection of possible words/phrases, rather than just putting all the words/phrases of a language together when you choose that language
+ 7) Make a screen like duolingo's where you choose what lesson to learn, and you need to unlock them
 */
 
 import UIKit
 import AVFoundation
 import Firebase
 
-let languages = ["arg", "aus", "bra"]
+let languages = ["arg", "aus", "bra", "ita"]
 
 let flagNames = ["argentinasmall", "australiasmall", "brazilsmall", "italysmall"]
 
-let randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
+
+//ARGENTINA
+
 let randomArgWords = ["pero", "no", "la", "verdad", "terrible", "soy", "leche", "boludo", "pilas", "fiaca", "el", "ella", "muy"]
-let randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
-let randomBraWords = ["legal", "muito", "ela", "ruim", "louco", "coraçao", "desafinado", "queijo", "bacana", "bom", "beleza", "cara", "gato", "valeu", "bola", "verdade"]
-
-let randomOrigWordArray = [randomArgWords, randomAusWords, randomBraWords]
-
 let slangsArgOrigPhrases = ["Estoy al horno", "Tengo mala leche", "Sos un boludo", "Che, tengo mucha fiaca", "Estoy re al pedo", "Dale, ponete las pilas", "Estoy en pedo", "Ni a palos"]
 let slangsArgTranslatedPhrases = ["I'm screwed", "I have bad luck", "You're a jerk", "Dude, I'm really lazy", "I'm not doing anything", "C'mon, get yourself together", "I am drunk", "Not even close"]
+var audioClipsArgPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos"]
+var slangsArgOrigWords = ["al horno", "mala leche", "boludo", "fiaca", "che", "pibe", "mina", "laburo", "pelotudo", "quilombo", "groso", "dale"]
+var slangsArgTranslatedWords = ["screwed", "bad luck", "jerk", "laziness", "dude", "guy", "girl", "work", "dumbass", "mess", "awesome", "c'mon"]
+var audioClipsArgWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
 
+
+//AUSTRALIA
+let randomAusWords = ["very", "super", "tired", "terrible", "maccas", "screwed", "but", "cheese", "barbie", "a", "an", "really", "avo", "dog", "ankle", "biter"]
 var slangsAusOrigPhrases = ["My son's room is a dog's breakfast", "Put the maccas on the barbie", "My ankle biter wants an avo"]
 var slangsAusTranslatedPhrases = ["My son's room is a mess", "Put the McDonalds on the barbecue", "My child wants an avocado"]
+var audioClipsAusPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo"]
 
+var slangsAusOrigWords = ["bogan", "brolly", "ankle biter", "chook", "crikey", "dag", "dunny", "durry", "frothy", "sheila", "straya", "bruce"]
+var slangsAusTranslatedWords = ["redneck", "umbrella", "child", "chicken", "wow", "nerd", "toilet", "cigarette", "beer", "woman", "australia", "man"]
+var audioClipsAusWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+
+
+//BRAZIL
+let randomBraWords = ["legal", "muito", "ela", "ruim", "louco", "coraçao", "desafinado", "queijo", "bacana", "bom", "beleza", "cara", "gato", "valeu", "bola", "verdade"]
 var slangsBraOrigPhrases = ["Cala boca, deveria se aposentar", "Voçe é meu Deus", "Voçe pisou na bola feio comigo", "Ops, foi mal"]
 var slangsBraTranslatedPhrases = ["Shut up, you should retire", "You are my God", "You really let me down", "Whoops, my bad"]
-
-var audioClipsArgPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos"]
-var audioClipsAusPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo"]
 var audioClipsBraPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyrealpedo"]
+var slangsBraOrigWords = ["legal", "cara", "bacana", "beleza", "valeu", "aposentar", "joia", "cabeça-dura", "foi mal", "e aí", "demorou", "treta"]
+var slangsBraTranslatedWords = ["awesome", "dude", "nice", "beauty", "thanks", "retire", "great", "stubborn", "my bad", "what's up", "of course", "fight"]
+var audioClipsBraWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+
+//ITALY
+let randomItaWords = ["guastafesta", "lui", "lei", "loro", "mettere", "davanti", "perché", "basta", "no", "macchina", "fagiolo", "scumbari", "non", "mamma", "basta", "sono"]
+var slangsItaOrigPhrases = ["Sei nelle nuvole", "Che palle", "Lui è una guastafesta"]
+var slangsItaTranslatedPhrases = ["You're distracted", "What a hassle", "He is a party pooper"]
+var audioClipsItaPhrases = ["estoyalhorno", "tengomalaleche", "sosunboludo"]
+var slangsItaOrigWords = ["guastafesta", "fagiolo", "boh", "figurati", "magari", "dai", "meno male", "pisolino"]
+var slangsItaTranslatedWords = ["party-pooper", "perfectly", "eh", "don't worry", "I wish", "come on", "thank God", "nap"]
+var audioClipsItaWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
+
+
+
+//OTHER
+let randomUsaWords = ["very", "super", "tired", "terrible", "jerk", "screwed", "but", "cheese", "have", "a", "an", "really"]
+//ARRAYS TO ADD VARIABLE TO WHEN ADDING NEW LANGUAGE
+let randomOrigWordArray = [randomArgWords, randomAusWords, randomBraWords, randomItaWords]
+var languagesOrigPhrases = [slangsArgOrigPhrases, slangsAusOrigPhrases, slangsBraOrigPhrases, slangsItaOrigPhrases]
+var languagesTranslatedPhrases = [slangsArgTranslatedPhrases, slangsAusTranslatedPhrases, slangsBraTranslatedPhrases, slangsItaTranslatedPhrases]
+var languageAudioClipsPhrases = [audioClipsArgPhrases, audioClipsAusPhrases, audioClipsBraPhrases, audioClipsItaPhrases]
+
+var languagesOrigWords = [slangsArgOrigWords, slangsAusOrigWords, slangsBraOrigWords, slangsItaOrigWords]
+var languagesTranslatedWords = [slangsArgTranslatedWords, slangsAusTranslatedWords, slangsBraTranslatedWords, slangsItaTranslatedWords]
+var languageAudioClipsWords = [audioClipsArgWords, audioClipsAusWords, audioClipsBraWords, audioClipsItaWords]
 
 var currSlangOrigPhrases = [String]()
 var currSlangTranslatedPhrases = [String]()
 var currAudioClipsPhrases = [String]()
 
-var slangsArgOrigWords = ["al horno", "mala leche", "boludo", "fiaca", "che", "pibe", "mina", "laburo", "pelotudo", "quilombo", "groso", "dale"]
-var slangsArgTranslatedWords = ["screwed", "bad luck", "jerk", "laziness", "dude", "guy", "girl", "work", "dumbass", "mess", "awesome", "c'mon"]
-
-var slangsAusOrigWords = ["bogan", "brolly", "ankle biter", "chook", "crikey", "dag", "dunny", "durry", "frothy", "sheila", "straya", "bruce"]
-var slangsAusTranslatedWords = ["redneck", "umbrella", "child", "chicken", "wow", "nerd", "toilet", "cigarette", "beer", "woman", "australia", "man"]
-
-var slangsBraOrigWords = ["legal", "cara", "bacana", "beleza", "valeu", "aposentar", "joia", "cabeça-dura", "foi mal", "e aí", "demorou", "treta"]
-var slangsBraTranslatedWords = ["awesome", "dude", "nice", "beauty", "thanks", "retire", "great", "stubborn", "my bad", "what's up", "of course", "fight"]
-
-//replace these with the words after recording them- for now just Spanish placeholders from the phrases
-var audioClipsArgWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "chetengomuchafiaca", "estoyrealpedo", "daleponetelaspilas", "estoyenpedo", "niapalos", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
-var audioClipsAusWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
-var audioClipsBraWords = ["estoyalhorno", "tengomalaleche", "sosunboludo", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno", "estoyalhorno"]
-
 var currSlangOrigWords = [String]()
 var currSlangTranslatedWords = [String]()
 var currAudioClipsWords = [String]()
-
-var languagesOrigPhrases = [slangsArgOrigPhrases, slangsAusOrigPhrases, slangsBraOrigPhrases]
-var languagesTranslatedPhrases = [slangsArgTranslatedPhrases, slangsAusTranslatedPhrases, slangsBraTranslatedPhrases]
-var languageAudioClipsPhrases = [audioClipsArgPhrases, audioClipsAusPhrases, audioClipsBraPhrases]
-
-var languagesOrigWords = [slangsArgOrigWords, slangsAusOrigWords, slangsBraOrigWords]
-var languagesTranslatedWords = [slangsArgTranslatedWords, slangsAusTranslatedWords, slangsBraTranslatedWords]
-var languageAudioClipsWords = [audioClipsArgWords, audioClipsAusWords, audioClipsBraWords]
 
 var readyForNext = true
 
@@ -655,61 +670,6 @@ class Translate: UIViewController {
         if(sender.frame.origin.y >= 550) {
             let ind = buttonsAtBottom.firstIndex(of: sender)!
             buttonsAtBottom.remove(at: ind)
-            /*
-            if(ind < buttonsAtBottom.count - 1) {
-                //buttonsAtBottom[ind+1].frame.origin.x = buttonsAtBottom[ind].frame.origin.x + buttonsAtBottom[ind].frame.width + 15
-                UIView.animate(withDuration: 0.2, animations: {
-                    buttonsAtBottom[ind+1].frame = CGRect(x: buttonsAtBottom[ind].frame.origin.x + buttonsAtBottom[ind].frame.width + 15, y: buttonsAtBottom[ind+1].frame.origin.y, width: buttonsAtBottom[ind+1].frame.width, height: buttonsAtBottom[ind+1].frame.height)
-                })
-                buttonsAtBottom.remove(at: ind)
-            } else {
-                buttonsAtBottom.remove(at: ind)
-            }
-            for n in buttonsAtBottom.distance(from: buttonsAtBottom.startIndex, to: ind) ..< buttonsAtBottom.count {
-                if(n == 3) {
-                    var dest = CGPoint(x: 0, y: 0)
-//                    buttonsAtBottom[3].frame.origin.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
-//                    buttonsAtBottom[3].frame.origin.y = 550
-                    dest.x = buttonsAtBottom[2].frame.origin.x + buttonsAtBottom[2].frame.width + 15
-                    dest.y = 550
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[3].frame = CGRect(x: dest.x, y: dest.y, width: buttonsAtBottom[3].frame.size.width, height: buttonsAtBottom[3].frame.size.height)
-                    })
-                }
-                if(n == 4) {
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[4].frame = CGRect(x: 50, y: buttonsAtBottom[4].frame.origin.y, width: buttonsAtBottom[4].frame.size.width, height: buttonsAtBottom[4].frame.size.height)
-                    })
-                } else if(n == 5) {
-                    //buttonsAtBottom[4].frame.origin.x = 100
-                    //buttonsAtBottom[5].frame.origin.x = buttonsAtBottom[4].frame.origin.x + buttonsAtBottom[4].frame.width + 15
-                    
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[5].frame = CGRect(x: buttonsAtBottom[4].frame.origin.x + buttonsAtBottom[4].frame.width + 15, y: buttonsAtBottom[5].frame.origin.y, width: buttonsAtBottom[5].frame.size.width, height: buttonsAtBottom[5].frame.size.height)
-                    })
-                    
-                    if(buttonsAtBottom.count > 6) {
-//                        buttonsAtBottom[6].frame.origin.x = buttonsAtBottom[5].frame.origin.x + buttonsAtBottom[5].frame.width + 15
-                        UIView.animate(withDuration: 0.2, animations: {
-                            buttonsAtBottom[6].frame = CGRect(x: buttonsAtBottom[5].frame.origin.x + buttonsAtBottom[5].frame.width + 15, y: buttonsAtBottom[6].frame.origin.y, width: buttonsAtBottom[6].frame.size.width, height: buttonsAtBottom[6].frame.size.height)
-                        })
-                        continue
-                    }
-                }
-                else if(n > 0) {
-                    //buttonsAtBottom[n].frame.origin.x = buttonsAtBottom[n-1].frame.origin.x + buttonsAtBottom[n-1].frame.width + 15
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[n].frame = CGRect(x: buttonsAtBottom[n-1].frame.origin.x + buttonsAtBottom[n-1].frame.width + 15, y: buttonsAtBottom[n].frame.origin.y, width: buttonsAtBottom[n].frame.size.width, height: buttonsAtBottom[n].frame.size.height)
-                    })
-                } else {
-                    //buttonsAtBottom[n].frame.origin.x = 100
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtBottom[n].frame = CGRect(x: 50, y: buttonsAtBottom[n].frame.origin.y, width: buttonsAtBottom[n].frame.size.width, height: buttonsAtBottom[n].frame.size.height)
-                    })
-                }
-            }
-            */
-            //buttonsAtBottom.remove(at: buttonsAtBottom.firstIndex(of: sender)!)
             var dest = CGPoint(x: 0, y: 0)
             if(userTranslation.count == 0 || buttonsAtTop.count == 4) {
                 //sender.frame.origin.x = 100
@@ -733,91 +693,11 @@ class Translate: UIViewController {
         } else if(sender.frame.origin.y <= 400) {
             let ind = buttonsAtTop.firstIndex(of: sender)!
             buttonsAtTop.remove(at: ind)
-            /*
-            if(ind < buttonsAtTop.count - 1) {
-                //buttonsAtTop[ind+1].frame.origin.x = buttonsAtTop[ind].frame.origin.x + buttonsAtTop[ind].frame.width + 15
-                UIView.animate(withDuration: 0.2, animations: {
-                    buttonsAtTop[ind+1].frame = CGRect(x: buttonsAtTop[ind].frame.origin.x + buttonsAtTop[ind].frame.width + 15, y: buttonsAtTop[ind+1].frame.origin.y, width: buttonsAtTop[ind+1].frame.width, height: buttonsAtTop[ind+1].frame.height)
-                })
-                buttonsAtTop.remove(at: ind)
-            } else {
-                buttonsAtTop.remove(at: ind)
-            }
-            for n in buttonsAtTop.distance(from: buttonsAtTop.startIndex, to: ind) ..< buttonsAtTop.count {
-                if(n == 3) {
-//                    buttonsAtTop[3].frame.origin.x = buttonsAtTop[2].frame.origin.x + buttonsAtTop[2].frame.width + 15
-//                    buttonsAtTop[3].frame.origin.y = 300
-                    var dest = CGPoint(x: 0, y: 0)
-                    dest.x = buttonsAtTop[2].frame.origin.x + buttonsAtTop[2].frame.width + 15
-                    dest.y = 300
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[3].frame = CGRect(x: dest.x, y: dest.y, width: buttonsAtTop[3].frame.size.width, height: buttonsAtTop[3].frame.size.height)
-                    })
-                }
-                if(n == 4) {
-                    //buttonsAtTop[4].frame.origin.x = 100
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[4].frame = CGRect(x: 50, y: buttonsAtTop[4].frame.origin.y, width: buttonsAtTop[4].frame.size.width, height: buttonsAtTop[4].frame.size.height)
-                    })
-                } else if(n == 5) {
-                    //buttonsAtBottom[4].frame.origin.x = 100
-                    //buttonsAtTop[5].frame.origin.x = buttonsAtTop[4].frame.origin.x + buttonsAtTop[4].frame.width + 15
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[5].frame = CGRect(x: buttonsAtTop[4].frame.origin.x + buttonsAtTop[4].frame.width + 15, y: buttonsAtTop[5].frame.origin.y, width: buttonsAtTop[5].frame.size.width, height: buttonsAtTop[5].frame.size.height)
-                    })
-                    if(buttonsAtTop.count > 6) {
-                        //buttonsAtTop[6].frame.origin.x = buttonsAtTop[5].frame.origin.x + buttonsAtTop[5].frame.width + 15
-                        UIView.animate(withDuration: 0.2, animations: {
-                            buttonsAtTop[6].frame = CGRect(x: buttonsAtTop[5].frame.origin.x + buttonsAtTop[5].frame.width + 15, y: buttonsAtTop[6].frame.origin.y, width: buttonsAtTop[6].frame.size.width, height: buttonsAtTop[6].frame.size.height)
-                        })
-                        continue
-                    }
-                }
-                else if(n > 0) {
-                    //buttonsAtTop[n].frame.origin.x = buttonsAtTop[n-1].frame.origin.x + buttonsAtTop[n-1].frame.width + 15
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[n].frame = CGRect(x: buttonsAtTop[n-1].frame.origin.x + buttonsAtTop[n-1].frame.width + 15, y: buttonsAtTop[n].frame.origin.y, width: buttonsAtTop[n].frame.size.width, height: buttonsAtTop[n].frame.size.height)
-                    })
-                } else {
-                    //buttonsAtTop[n].frame.origin.x = 100
-                    UIView.animate(withDuration: 0.2, animations: {
-                        buttonsAtTop[n].frame = CGRect(x: 50, y: buttonsAtTop[n].frame.origin.y, width: buttonsAtTop[n].frame.size.width, height: buttonsAtTop[n].frame.size.height)
-                    })
-                }
-            } */
-            //buttonsAtTop.remove(at: buttonsAtTop.firstIndex(of: sender)!)
             let dest = CGPoint(x: wordsToClickFrame[sender.tag].frame.origin.x, y: wordsToClickFrame[sender.tag].frame.origin.y)
-//            if(buttonsAtBottom.count == 0 || buttonsAtBottom.count == 4) {
-//                //sender.frame.origin.x = 100
-//                dest.x = 50
-//            } else {
-//                //sender.frame.origin.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
-//                dest.x = buttonsAtBottom.last!.frame.origin.x + buttonsAtBottom.last!.frame.width + 15
-//            }
-//            if(buttonsAtBottom.count < 4) {
-//                //sender.frame.origin.y = 550
-//                dest.y = 550
-//            } else {
-//                //sender.frame.origin.y = 600
-//                dest.y = 600
-//            }
             UIView.animate(withDuration: 0.2, animations: {
                 sender.frame = CGRect(x: dest.x, y: dest.y, width: sender.frame.size.width, height: sender.frame.size.height)
             })
             buttonsAtBottom.append(sender)
-//            var rightMostIndex = 0
-//            var rightMostXValue = 0
-//            for n in 0 ..< wordsToClick.count {
-//                if(wordsToClick[n].frame.origin.y == 550 && rightMostXValue < Int(wordsToClick[n].frame.origin.x)) {
-//                    rightMostXValue = Int(wordsToClick[n].frame.origin.x)
-//                    rightMostIndex = n
-//                }
-//            }
-//            if(rightMostXValue == 9999) {
-//                sender.frame.origin.x = 100
-//            } else {
-//                sender.frame.origin.x = wordsToClick[rightMostIndex].frame.origin.x + wordsToClick[rightMostIndex].frame.width + 15
-//            }
             userTranslation.remove(at: userTranslation.firstIndex(of: sender.titleLabel!.text!)!)
         }
     }
