@@ -101,7 +101,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="AQh-wf-ZjE"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Leaderboard" id="bVW-ba-gXr" userLabel="Leaderboard"/>
+                    <tabBarItem key="tabBarItem" title="Leaderboard" image="leaderboard" selectedImage="leaderboardselected" id="bVW-ba-gXr" userLabel="Leaderboard"/>
                     <connections>
                         <outlet property="tableView" destination="T2c-t7-SAr" id="rnn-zD-FzD"/>
                     </connections>
@@ -180,7 +180,7 @@
                         <color key="backgroundColor" red="0.47480535507202148" green="0.77421677112579346" blue="0.98044687509536743" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="Hlp-Bd-xiR"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Learn" id="LTI-Io-0Hk"/>
+                    <tabBarItem key="tabBarItem" title="Learn" image="home" selectedImage="homeselected" id="LTI-Io-0Hk"/>
                     <connections>
                         <segue destination="aMj-cN-vxT" kind="presentation" identifier="languageToLearn" modalPresentationStyle="fullScreen" id="nuu-R3-dvf"/>
                     </connections>
@@ -324,8 +324,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Slanguage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zta-qo-Iuc">
+                                <rect key="frame" x="69" y="116" width="277" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Bombing" family="Bombing" pointSize="85"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9bu-47-FHO">
-                                <rect key="frame" x="159" y="301" width="97" height="30"/>
+                                <rect key="frame" x="95" y="344" width="224" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="email"/>
@@ -333,14 +340,14 @@
                                     <action selector="email:" destination="OQD-qd-owd" eventType="editingDidEnd" id="yES-fS-BWp"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Pass" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V4E-vz-ggZ">
-                                <rect key="frame" x="159" y="370" width="97" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V4E-vz-ggZ">
+                                <rect key="frame" x="95" y="421" width="224" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OAo-UQ-vMA">
-                                <rect key="frame" x="176" y="427" width="63" height="42"/>
+                                <rect key="frame" x="176" y="511" width="63" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
                                 <state key="normal" title="Login">
@@ -350,13 +357,6 @@
                                     <action selector="loginClicked:" destination="t2O-fe-Kz2" eventType="touchUpInside" id="OSd-60-2ae"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Slanguage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zta-qo-Iuc">
-                                <rect key="frame" x="69" y="116" width="277" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Bombing" family="Bombing" pointSize="85"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.47480535509999999" green="0.77421677109999998" blue="0.98044687509999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="bji-Lv-TQ7"/>
@@ -457,10 +457,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieQ-HA-02B">
-                                <rect key="frame" x="162" y="435" width="90" height="42"/>
+                                <rect key="frame" x="162" y="589" width="90" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
-                                <state key="normal" title="Sign Up"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="signUpClicked:" destination="i6N-PK-IJF" eventType="touchUpInside" id="yTR-Oa-jC1"/>
                                 </connections>
@@ -472,29 +474,29 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Urc-rc-Gw3">
-                                <rect key="frame" x="132" y="217" width="150" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" textContentType="username"/>
-                            </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NYr-XA-QER">
-                                <rect key="frame" x="132" y="278" width="150" height="30"/>
+                                <rect key="frame" x="95" y="369" width="224" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-Tu-uGg">
-                                <rect key="frame" x="132" y="331" width="150" height="30"/>
+                                <rect key="frame" x="95" y="433" width="224" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Yw-HR-4DN">
-                                <rect key="frame" x="132" y="385" width="150" height="30"/>
+                                <rect key="frame" x="95" y="494" width="224" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Urc-rc-Gw3">
+                                <rect key="frame" x="95" y="301" width="224" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="username"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.47480535509999999" green="0.77421677109999998" blue="0.98044687509999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -522,12 +524,16 @@
         <image name="back" width="50" height="50"/>
         <image name="brazil" width="128" height="128"/>
         <image name="brazilsmall" width="32" height="32"/>
+        <image name="home" width="32" height="32"/>
+        <image name="homeselected" width="32" height="32"/>
         <image name="italy" width="128" height="128"/>
         <image name="italysmall" width="32" height="32"/>
+        <image name="leaderboard" width="30" height="30"/>
+        <image name="leaderboardselected" width="30" height="30"/>
         <image name="loot1" width="142" height="331"/>
         <image name="playwhite" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Tdu-HZ-euz"/>
+        <segue reference="LPZ-aW-9me"/>
     </inferredMetricsTieBreakers>
 </document>

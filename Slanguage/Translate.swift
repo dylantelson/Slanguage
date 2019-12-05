@@ -3,9 +3,8 @@
  2) Add more types of minigames- look at other language learning apps and see what they do
  3) Add audio for when you get the right answer, wrong answer, etc. Normal sound effects
  4) Add audio for languages without audio for words and phrases
- 5) Add icons for the tab view
- 6) Add lessons to each language with a collection of possible words/phrases, rather than just putting all the words/phrases of a language together when you choose that language
- 7) Make a screen like duolingo's where you choose what lesson to learn, and you need to unlock them
+ 5) Add lessons to each language with a collection of possible words/phrases, rather than just putting all the words/phrases of a language together when you choose that language
+ 6) Make a screen like duolingo's where you choose what lesson to learn, and you need to unlock them
 */
 
 import UIKit
