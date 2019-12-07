@@ -71,6 +71,11 @@ class Leaderboard: UIViewController, UITableViewDataSource, UITableViewDelegate 
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
+                    let alertController = UIAlertController(title: "Error", message: "Could not find the leaderboard info.", preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    
+                    alertController.addAction(defaultAction)
+                    self.present(alertController, animated: true, completion: nil)
                 } else {
                     for document in querySnapshot!.documents {
                         let name = document["username"] as! String

@@ -37,7 +37,6 @@ class SignUpViewController: UIViewController {
         } else {
             Auth.auth().createUser(withEmail: email.text!, password: pass.text!){ (user, error) in
                 if error == nil {
-                    print("len: ", self.username.text!.count)
                     let db = Firestore.firestore()
                     db.collection("users").document((user?.user.uid)!).setData(["score": 0, "username":self.username.text!, "currLang":"null"])
                     UserDefaults.standard.set(0, forKey: "UserScore")

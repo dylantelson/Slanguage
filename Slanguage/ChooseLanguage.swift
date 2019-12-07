@@ -37,6 +37,11 @@ class ChooseLanguage: UIViewController {
         }
         catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
+            let alertController = UIAlertController(title: "Error", message: "Error signing out.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true, completion: nil)
         }
         let startup = storyboard!.instantiateInitialViewController()
         UIApplication.shared.keyWindow?.rootViewController = startup

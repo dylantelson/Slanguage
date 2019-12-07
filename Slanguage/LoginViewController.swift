@@ -20,7 +20,6 @@ class LoginViewController: UIViewController {
         Auth.auth().signIn(withEmail: email.text!, password: pass.text!) { (user, error) in
             if error == nil {
                 let currUserData = Firestore.firestore().collection("users").document(Auth.auth().currentUser!.uid)
-
                 currUserData.getDocument { (document, error) in
                     if let document = document, document.exists {
                         //let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -29,7 +28,11 @@ class LoginViewController: UIViewController {
                         UserDefaults.standard.set(document["currLang"], forKey: "currLang")
                         self.performSegue(withIdentifier: "loginToHome", sender: self)
                     } else {
-                        print("Document does not exist")
+                        let alertController = UIAlertController(title: "No user found", message: "Could not find any info with that email.", preferredStyle: .alert)
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        
+                        alertController.addAction(defaultAction)
+                        self.present(alertController, animated: true, completion: nil)
                     }
                 }
             }

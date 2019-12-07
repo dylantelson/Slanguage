@@ -143,6 +143,11 @@ class Translate: UIViewController {
         ]) { err in
             if let err = err {
                 print("Error updating score: \(err)")
+                let alertController = UIAlertController(title: "Error", message: "Could not update score.", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
             } else {
                 print("CurrLang successfully updated")
             }
@@ -712,6 +717,11 @@ class Translate: UIViewController {
         ]) { err in
             if let err = err {
                 print("Error updating score: \(err)")
+                let alertController = UIAlertController(title: "Error", message: "Could not update score.", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
             } else {
                 print("Score successfully updated")
                 self.performSegue(withIdentifier: "learnToLanguage", sender: self)
