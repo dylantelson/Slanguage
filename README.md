@@ -1,4 +1,4 @@
-#Slanguage
+# Slanguage
 
 Slanguage is a Duolingo-like app in which the user can learn slang from around the world. Teaching both common slang words and funny phrases, this app can help the user bond with locals and learn how to say common phrases other language apps do not teach. After selecting a language, the user is given prompts of either translating phrases word-by-word or tapping and pairing slang words from given words. There is also audio of the phrases to help the user learn pronunciation and a leaderboard which shows the top 20 users so that the user can compete with their friends. The currently implemented languages are Argentinian Spanish, Australian English, Brazilian Portuguese, and Italian.
 
